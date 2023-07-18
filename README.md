@@ -1,5 +1,12 @@
 # HustLogin
-A python-lib for authenticating HustPass
+A python-lib for authenticating HustPass@2023
+
+> Faster, Easier, Lighter
+
+Attention: HustPass login protocol underwent a major update on 2023/05/23, moving from DES to RSA, previous login libraries are now deprecated.
+
+
+
 
 ## Requirements
 ```
