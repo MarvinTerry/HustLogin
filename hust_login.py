@@ -22,10 +22,10 @@ def decaptcha(img_content):
             img_merge.putpixel(pos,0)
     captcha_code = pytesseract.image_to_string(img_merge, config='-c tessedit_char_whitelist=0123456789 --psm 6')
     print('captcha_code:{}'.format(captcha_code.strip()))
-    img_merge.save('./src/decaptcha/blended.png')
+    # img_merge.save('./src/decaptcha/blended.png')
     return captcha_code
 
-def hust_login(username, password):
+def HustPass(username, password):
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36 Edg/92.0.902.62'}
     # 建立session
     print('setting up session...')
