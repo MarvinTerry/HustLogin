@@ -5,15 +5,23 @@ A python-lib for authenticating HustPass@2023
 
 Attention: HustPass login protocol underwent a major update on 2023/05/23, moving from DES to RSA, previous login libraries are now deprecated.
 
+## Installing
 
+The library has been made publicly available on PyPI **[hust_login](https://pypi.org/project/hust-login/)**
 
+Installing by a single line of command, and requirements will be automatically handled.
 
-## Requirements
 ```
-Pillow==10.0.0
-pycryptodome==3.18.0
-pytesseract==0.3.10
-Requests==2.31.0
+pip install hust_login
+```
+
+
+Requirements are listed below:
+```
+Pillow
+pycryptodome
+pytesseract
+Requests
 ```
 
 ## Documentation
@@ -27,13 +35,14 @@ Requests==2.31.0
   - A **```requests.Session```** object that is already logged in
     - use it the same way you use requests, e.g.
       ```python
-      s = HustLogin('U2022XXXXX','YOUR-PASSWORD')
-      s.get(your_url)
+      s = hust_login.HustLogin('U2022XXXXX','YOUR-PASSWORD')
+      ret = s.get(your_url)
+      print(ret.text)
       ```
 
 > NO MORE HUSTPASS, MY BRO!!!
 
-> BE CREATIVE, BE WATER!!!
+> BE CREATIVE!!!
 
 ## Demo
 Demonstrating how to query the exam result
@@ -50,6 +59,7 @@ Demonstrating how to query the exam result
               print(col.text.strip(), end=" ")
           print("")
   ```
+  It's **recommended** to call ```HustLogin``` in the ```with``` statement, as shown.
 - RESULT:
   ```
   setting up session...
@@ -73,3 +83,29 @@ Demonstrating how to query the exam result
    公选课总学分  2.00
    总学分  52.5
   ```
+
+## Development
+
+If the lib outdated, try to make a pull request to get this lib working again!
+
+The js-scripts that enable encrypting and posting the login-form during regular login are publicly available [login_standar.js?v=20230523](https://pass.hust.edu.cn/cas/comm/js/login_standar.js?v=20230523). My job was to translate the js into python and deal with the captcha code.
+
+Here are something worth mentioning if you are developing a newer version of the lib:
+
+- Encrytion: 
+  - PublicKey is encoded in base64, decode it first.
+  - The usr/pass you encrypted should be encoded in base64, and converted into the text instead of bytes. Look deeper into my code to see how it works.
+- Decaptcha
+  - The ```BytesIO``` method is used to convert byte-stream containing the gif into the file.
+  - Genius approach applied to combine and de-noise the 4-frame gif: As observed, the **number** pixels would appear in 3 frames at least, while **noise** pixels are less than 2. This provides a super accurate way to de-noise the picture. Here's the code clip, try to understand:
+    ```python
+    img_merge = Image.new(mode='L',size=(width,height),color=255)
+    for pos in [(x,y) for x in range(width) for y in range(height)]:
+        if sum([img.getpixel(pos) < 254 for img in img_list]) >= 3:
+            img_merge.putpixel(pos,0)
+    ``` 
+- Network
+  - A common fake User-Agent is essential! HustPass has blocked python-requests's default User-Agent.
+
+
+
