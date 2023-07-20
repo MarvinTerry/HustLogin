@@ -47,10 +47,10 @@ def HustPass(username, password):
         "rsa": None,
         "ul": encrypted_u,
         "pl": encrypted_p,
-        "code": decaptcha(captcha_img.content).strip(),
+        "code": None, # decaptcha(captcha_img.content).strip() 图片验证码被取消
         "phoneCode": None,
         "lt": nonce,
-        "execution": "e1s1",
+        "execution": "e3s1",
         "_eventId": "submit"
     }
     print('posting login-form...')
