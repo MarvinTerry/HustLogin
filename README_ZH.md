@@ -11,18 +11,18 @@
 
 通过单行命令安装，pip将自动处理依赖。
 
-````
-pip 安装 hust_login
-````
+```
+pip install hust_login
+```
 
 
 依赖如下：
-````
+```
 Pillow
 pycryptodome
 pytesseract
 Requests
-````
+```
 
 ## 文档
 ### **````hust_login.HustPass(用户名，密码)````**
