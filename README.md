@@ -1,6 +1,8 @@
 # HustLogin
 A python-lib for authenticating HustPass@2023
 
+![HustPassLogo](https://pass.hust.edu.cn/cas/comm/image/logo-inside.png)
+
 > Faster, Easier, Lighter
 
 Attention: HustPass login protocol underwent a major update on 2023/05/23, moving from DES to RSA, previous login libraries are now deprecated.
@@ -15,22 +17,18 @@ Installing by a single line of command, and requirements will be automatically h
 pip install hust_login
 ```
 
+Additionally, you need to install ```tesseract-ocr``` back end:
 
-Requirements are listed below:
-```
-Pillow
-pycryptodome
-pytesseract
-Requests
-```
+- Win: [download binary here](https://tesseract-ocr.github.io/tessdoc/Downloads.html), "3rd party Windows exe’s/installer" recommanded.
+- Linux: run ```sudo apt install tesseract-ocr```
 
 ## Documentation
-### **```hust_login.HustPass(username, password)```**
+### **```hust_login.HustPass(username, password, headers=None)```**
 
   PARAMETERS:
   - username -- Username of pass.hust.edu.cn  e.g. U2022XXXXX
   - password -- Password of pass.hust.edu.cn
-  - headers  -- Headers you want to use, optional
+  - headers  -- Headers you want to use, optional (the default header works fine)
 
   RETURNS:
   - A **```requests.Session```** object that is already logged in
@@ -104,6 +102,8 @@ Here are something worth mentioning if you are developing a newer version of the
         if sum([img.getpixel(pos) < 254 for img in img_list]) >= 3:
             img_merge.putpixel(pos,0)
     ``` 
+    <img src="images/captcha_code.gif" ><img src="images/arrow.png" height="20" style="padding:18px"><img src="images/captcha_code_processed.png">
+  
 - Network
   - A common fake User-Agent is essential! HustPass has blocked python-requests's default User-Agent.
 
