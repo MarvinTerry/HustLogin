@@ -30,6 +30,7 @@ Requests
   PARAMETERS:
   - username -- Username of pass.hust.edu.cn  e.g. U2022XXXXX
   - password -- Password of pass.hust.edu.cn
+  - headers  -- Headers you want to use, optional
 
   RETURNS:
   - A **```requests.Session```** object that is already logged in
