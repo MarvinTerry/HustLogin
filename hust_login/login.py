@@ -84,3 +84,14 @@ def HustPass(username:str, password:str, headers:dict=None) -> requests.Session:
     log.info("---HustPass Succeed---")
     log.debug('Thank you for using hust_login')
     return r
+
+def CheckLoginStatu(session:requests.Session) -> bool:
+    '''
+    Check login statu\n
+    Return False if is not logged in
+    '''
+    ret = session.get('https://one.hust.edu.cn')
+    if ret.status_code != 200:
+        log.warning('HUSTPASS: check login failed, code:{}'.format(ret.status_code))
+        return False
+    return True
