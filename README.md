@@ -102,7 +102,7 @@ Here are something worth mentioning if you are developing a newer version of the
         if sum([img.getpixel(pos) < 254 for img in img_list]) >= 3:
             img_merge.putpixel(pos,0)
     ``` 
-    <img src="images/captcha_code.gif" ><img src="images/arrow.png" height="20" style="padding:18px"><img src="images/captcha_code_processed.png">
+    <img src="images/captcha_code.gif" style="padding:10px"><img src="images/captcha_code_processed.png" style="padding:10px">
   
 - Network
   - A common fake User-Agent is essential! HustPass has blocked python-requests's default User-Agent.
