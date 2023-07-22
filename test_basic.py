@@ -7,4 +7,4 @@ Uname = input('Uid:')
 Upass = input('Pwd:')
 
 with HustPass(Uname, Upass) as s:
-    print(curriculum.GetOneDay(s, '2023-04-01', '7'))
+    print(curriculum.GetOneDay(s, '2023-03-28'))
