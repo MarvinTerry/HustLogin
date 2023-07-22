@@ -25,22 +25,21 @@ Requests
 ```
 
 ## Documentation
-### **```hust_login.HustLogin(username, password)```**
+### **```hust_login.HustPass(username, password)```**
 
   PARAMETERS:
   - username -- Username of pass.hust.edu.cn  e.g. U2022XXXXX
   - password -- Password of pass.hust.edu.cn
+  - headers  -- Headers you want to use, optional
 
   RETURNS:
   - A **```requests.Session```** object that is already logged in
     - use it the same way you use requests, e.g.
       ```python
-      s = hust_login.HustLogin('U2022XXXXX','YOUR-PASSWORD')
+      s = hust_login.HustPass('U2022XXXXX','YOUR-PASSWORD')
       ret = s.get(your_url)
       print(ret.text)
       ```
-
-> NO MORE HUSTPASS, MY BRO!!!
 
 > BE CREATIVE!!!
 
@@ -48,10 +47,10 @@ Requests
 Demonstrating how to query the exam result
 - CODE:
   ```python
-  from hust_login import HustLogin
+  from hust_login import HustPass
   from bs4 import BeautifulSoup
   
-  with HustLogin('U2022XXXXX','YOUR-PASSWORD') as s:
+  with HustPass('U2022XXXXX','YOUR-PASSWORD') as s:
       ret = s.get('http://hub.m.hust.edu.cn/cj/cjsearch/findcjinfo.action?xn=2022&xq=0')
       soup = BeautifulSoup(ret.content, 'html.parser')
       for row in soup.find_all('tr'):
@@ -59,12 +58,13 @@ Demonstrating how to query the exam result
               print(col.text.strip(), end=" ")
           print("")
   ```
-  It's **recommended** to call ```HustLogin``` in the ```with``` statement, as shown.
+  It's **recommended** to call ```HustPass``` in the ```with``` statement, as shown.
 - RESULT:
   ```
   setting up session...
-  encrypting u/p...
+  captcha detected, trying to decaptcha...
   decaptching...
+  encrypting u/p...
   captcha_code:4608
   posting login-form...
   ---HustPass Succeed---
