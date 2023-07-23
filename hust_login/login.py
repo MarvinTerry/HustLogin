@@ -8,7 +8,7 @@ from base64 import b64encode, b64decode
 from .decaptcha import decaptcha
 
 
-def HustPass(username:str, password:str, headers:dict=None) -> requests.Session:# 以便ide进行类型检查与代码补全
+def HustLogin(username:str, password:str, headers:dict=None) -> requests.Session:# 以便ide进行类型检查与代码补全
     '''
     PARAMETERS:\n
     username -- Username of pass.hust.edu.cn  e.g. U2022XXXXX\n
