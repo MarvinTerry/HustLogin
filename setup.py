@@ -13,10 +13,16 @@ setup(
     packages=['hust_login'],
     license='MIT',
     long_description=long_description,
+    long_description_content_type = 'text/markdown',
     install_requires=[
         'Pillow>=10.0.0',
         'pycryptodome>=3.18.0',
         'pytesseract>=0.3.10',
         'Requests>=2.31.0'
+    ],
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
     ]
 )
