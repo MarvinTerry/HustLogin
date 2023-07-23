@@ -14,10 +14,7 @@ def GetVersion():
     with open('version','r') as fp:
         lastverison = fp.read()
         version = lastverison.split('.')
-    version = version[0]+'.'+version[1]+'.'+str(int(version[2].split('(')[0])+1)+'({})'.format(count)
-
-    with open('version','w') as fp:
-        fp.write(version)
+    version = version[0]+'.'+version[1]+'.'+'({})'.format(count -40)
         
     return version
 
