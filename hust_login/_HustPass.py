@@ -1,6 +1,7 @@
 from .login import HustLogin, CheckLoginStatu
 from .utility_bills import GetElectricityBill
 from .curriculum import GetCurriculum
+from .free_room import GetFreeRoom
 
 class HustPass_NotLoged(BaseException):
     def __init__(self, *args: object) -> None:
@@ -50,3 +51,15 @@ class HustPass:
         '''
         self.CheckLoged()
         return GetCurriculum(self.Session, QueryData)
+    
+    def QueryFreeRoom(self, QueryData:str) -> dict:
+        '''
+        PARAMETERS:\n
+        session -- should be already logged in\n
+        date    -- str  : the day you want, in form of YYYY-MM-DD\n
+        \n
+        RETURN:\n
+        {'Date':'YYYY-MM-DD','Buildings':['东九楼A':{'No':'1','Roomlist': ['A101','A102']}]}
+        '''
+        self.CheckLoged()
+        return GetFreeRoom(self.Session, QueryData)
