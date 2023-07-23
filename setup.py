@@ -3,24 +3,10 @@ from setuptools import setup
 with open('README.md','r', encoding='utf-8') as f:
     long_description = f.read()
 
-def GetVersion():
-    import git
-
-    repo_path = '.'
-    repo = git.Repo(repo_path)
-    count = repo.git.rev_list('--count', 'HEAD')
-    #commit_hash = repo.commit('main').hexsha[:7]
-
-    with open('version','r') as fp:
-        lastverison = fp.read()
-        version = lastverison.split('.')
-    version = version[0]+'.'+version[1]+'.'+'({})'.format(count -40)
-        
-    return version
-
 setup(
     name='hust_login',
-    version=GetVersion(),
+    setup_requires=['setuptools_scm'],
+    use_scm_version=True,
     description='A python-lib for authenticating HustPass@2023',
     author='MarvinTerry',
     author_email='marvinterry2004@gmail.com',
