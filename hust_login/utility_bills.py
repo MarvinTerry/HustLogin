@@ -95,11 +95,11 @@ def _GetOneDay(session:requests.Session, MeterID:str, S_Date:str, E_Date:str) ->
     if re.search('<msg>成功</msg>', payload3) is None:
         raise
     ret_daycost = []
-    for _item in re.finditer('<DayValueInfo>(.*)</DayValueInfo>', payload3, re.S):
+    for _item in re.finditer('<DayValueInfo>(.*?)</DayValueInfo>', payload3, re.S): # 解决匹配错误 *?表示最小匹配(non-greedy quantifier)
         item = _item.group(1)
         elc_cost = re.search('<dayValue>(.*)</dayValue>', item).group(1)
         cost_unit = re.search('<dw>(.*)</dw>', item).group(1)
         money = re.search('<dayUseMeony>(.*)</dayUseMeony>',item).group(1)
         date = re.search('<curDayTime>(.*)</curDayTime>', item).group(1)
-        ret_daycost.append({'daycost':elc_cost+cost_unit,'date':date,'money':money})
+        ret_daycost.append({'date':date,'daycost':elc_cost+cost_unit,'money':money}) # 调换日期、电费顺序，更加合理
     return ret_daycost

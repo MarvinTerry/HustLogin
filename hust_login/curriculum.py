@@ -40,14 +40,14 @@ def GetOneDay(session:requests.Session, _date_query:str) -> tuple[list[dict], di
 def _GetOneDay(session:requests.Session, date_query:str, week:int) -> tuple[list[dict], dict]:
     resp_api = session.get('http://hub.m.hust.edu.cn/kcb/todate/JsonCourse.action?sj={}&zc={}'.format(date_query, week))
     content=json.loads(resp_api.text)
-    ret = []
-    info = {'Date':date_query} 
+    class_list = []
+    ret = {'Date':date_query} 
     for item in content:
         if item['kc'][0]['JSMC']=='—':
             continue
-        ret.append({'No':item['jcx'],'ClassName':item['kc'][0]['KCMC'],'TeacherName':item['kc'][0]['XM'],'Place':item['kc'][0]['JSMC']})
-        info['InWeek']=item['kc'][0]['XQ']
-    return ret, info
+        class_list.append({'No':item['jcx'],'ClassName':item['kc'][0]['KCMC'],'TeacherName':item['kc'][0]['XM'],'Place':item['kc'][0]['JSMC']})
+    ret['Curriculum'] = class_list
+    return ret
 
 def GetCurriculum(session:requests.Session, _date_query:str|list[str]|int|tuple[str,str]) -> list:
     '''
@@ -59,8 +59,7 @@ def GetCurriculum(session:requests.Session, _date_query:str|list[str]|int|tuple[
             -- tuple: two str, including the start and the end\n
     \n
     RETURN:\n
-    [([{'No':'1', 'ClassName': 'XXX', 'TeacherName': 'XXX'}}, ...], {'Date':'2023-01-01','InWeek':'星期一'}), ...]\n
-    OR [],{'Date':'2013-01-01'}
+    [{'Date':'YYYY-MM-DD','Curriculum':[{'No':'1', 'ClassName': 'XXX', 'TeacherName': 'XXX'}]}]
     '''
     resp_html = session.get('http://hub.m.hust.edu.cn/kcb/todate/datecourseNew.action')
     start_date_semester =datetime.strptime(re.search(
