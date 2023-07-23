@@ -46,7 +46,7 @@ class HustPass:
                 -- tuple: two str, including the start and the end\n
         \n
         RETURN:\n
-        [{'date':'YYYY-MM-DD','data':[{'No':'1', 'ClassName': 'XXX', 'TeacherName': 'XXX'}}]}]
+        [{'Date':'YYYY-MM-DD','Curriculum':[{'No':'1', 'ClassName': 'XXX', 'TeacherName': 'XXX'}]}]
         '''
         self.CheckLoged()
         return GetCurriculum(self.Session, QueryData)
