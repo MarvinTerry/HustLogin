@@ -7,4 +7,5 @@ Uname = input('Uid:')
 Upass = input('Pwd:')
 
 with HustPass(Uname, Upass) as s:
-    print(s.QueryElectricityBills(('2023-4-1', '2023-4-12')))
+    print(s.QueryFreeRoom('2023-4-5'))
+    
