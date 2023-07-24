@@ -1,7 +1,7 @@
 name: Continuous Integration
 
 on: 
-  workflow_call:
+  workflow_dispatch:
 
 jobs:
   build-whl:
@@ -33,9 +33,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: hust_login_${{ matrix.os }}
-          path: dist
+          path: dist/hust_login-*.whl
       
       - name: cleanup artifacts 
-        run: rm -r dist && cat /home/runner/work/HustLogin/HustLogin/.github/workflows/auto-test.yml
+        run: rm -r dist
 
       
