@@ -54,6 +54,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          cd artifact
           pip install hust_login-*.whl
       #    python -m hust_login --autotest -U ${{ secrets.Uid }} -P ${{ secrets.Pwd }}
 
