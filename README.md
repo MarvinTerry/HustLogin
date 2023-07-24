@@ -23,7 +23,7 @@ Additionally, you need to install ```tesseract-ocr``` back end:
 - Linux: run ```sudo apt install tesseract-ocr```
 
 ## Documentation
-### **```hust_login.HustPass(username, password, headers=None)```**
+### **```hust_login.HustLogin(username, password, headers=None)```**
 
   PARAMETERS:
   - username -- Username of pass.hust.edu.cn  e.g. U2022XXXXX
@@ -38,6 +38,12 @@ Additionally, you need to install ```tesseract-ocr``` back end:
       ret = s.get(your_url)
       print(ret.text)
       ```
+### **```hust_login.HustLogin(username, password, headers=None)```**
+
+  PARAMETERS: Same as HustLogin
+
+  RETURNS:
+  - A class that contains wrapped common functions like QueryElectricityBills, QueryCurriculum, QueryFreeRoom, etc.
 
 > BE CREATIVE!!!
 
