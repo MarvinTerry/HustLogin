@@ -30,6 +30,7 @@ def main():
             code = full_test(Uid,Pwd)
         except:
             print('Test Failed')
+            return -1
         return code
     
 if __name__ == '__main__':
