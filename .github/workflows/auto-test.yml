@@ -10,10 +10,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
+
       - name: Build artifacts
         id: build
-        uses: ./github/workflows/python-push.yml
+        uses: ./.github/workflows/python-push.yml
 
   test:
     runs-on: ${{ matrix.os }}
@@ -23,9 +23,6 @@ jobs:
         os: [ubuntu-latest] #[windows-latest, macos-latest, ubuntu-latest]
 
     steps:
-      - name: Build artifacts
-        uses: ./github/workflows/python-push.yml
-
       - name: Download artifacts
         uses: actions/download-artifact@v3
 
