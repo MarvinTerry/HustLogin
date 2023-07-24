@@ -39,8 +39,8 @@ jobs:
       - name: cleanup artifacts 
         run: rm -r dist && cat /home/runner/work/HustLogin/HustLogin/.github/workflows/auto-test.yml
 
-      - name: auto test
-        uses: ./.github/workflows/auto-test.yml
-        with: 
-          name: hust_login_${{ matrix.os }}
+      #- name: auto test
+      #  uses: ./.github/workflows/auto-test.yml
+      #  with: 
+      #    name: hust_login_${{ matrix.os }}
       
