@@ -1,0 +1,48 @@
+name: Continuous Integration
+
+on: [push,pull_request]
+
+job:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: ubuntu-latest #[windows-latest, macos-latest, ubuntu-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install --upgrade setuptools
+          pip install build
+
+      - name: Build package
+        run: python -m build
+
+      - name: upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: hust_login_${{ matrix.os }}
+          path: dist
+      
+      - name: cleanup artifacts 
+        run: rm -r dist
+
+      - name: auto test
+        call-workflow-passing-data:
+          uses: /.github/workflows/python-push.yml
+        with: 
+          name: hust_login_${{ matrix.os }}
+        secrets:
+          Uid: ${{ secrets.Uid }}
+          Pwd: ${{ secrets.Pwd }}
+      
