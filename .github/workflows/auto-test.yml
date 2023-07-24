@@ -38,7 +38,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
+        os: [macos-latest, ubuntu-latest] #[windows-latest, macos-latest, ubuntu-latest]
 
     needs: build
 
@@ -54,9 +54,9 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          tree
-      #    pip install hust_login-*.whl
-      #    python -m hust_login --autotest -U ${{ secrets.Uid }} -P ${{ secrets.Pwd }}
+          cd artifact
+          pip install hust_login-*.whl
+          python -m hust_login --autotest -U ${{ secrets.Uid }} -P ${{ secrets.Pwd }}
 
       #- name: release
       #  uses: softprops/action-gh-release@v1
