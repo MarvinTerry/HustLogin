@@ -39,6 +39,9 @@ jobs:
       - name: cleanup artifacts 
         run: rm -r dist
 
+      - name: Checkout code again
+        uses: actions/checkout@v3
+
       - name: auto test
         uses: ./.github/workflows/python-push.yml
         with: 
