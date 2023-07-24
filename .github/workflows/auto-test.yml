@@ -5,22 +5,19 @@ on:
     inputs:
       name: 
         required: true
-        typing: string
+        type: string
     secrets:
       Uid:
         required: true
-        typing: string
       Pwd:
         required: true
-        typing: string
 jobs:
   test:
-    runs-on:
-      os: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        os: ubuntu-latest #[windows-latest, macos-latest, ubuntu-latest]
+        os: [ubuntu-latest] #[windows-latest, macos-latest, ubuntu-latest]
 
     steps:
       - name: Download artifacts
