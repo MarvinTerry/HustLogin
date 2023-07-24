@@ -31,7 +31,7 @@ jobs:
         run: python -m build
 
       - name: upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: hust_login_${{ matrix.os }}
           path: dist
@@ -39,12 +39,8 @@ jobs:
       - name: cleanup artifacts 
         run: rm -r dist
 
-      #- name: auto test
-      #  call-workflow-passing-data:
-      #    uses: /.github/workflows/python-push.yml
-      #  with: 
-      #    name: hust_login_${{ matrix.os }}
-      #  secrets:
-      #    Uid: ${{ secrets.Uid }}
-      #    Pwd: ${{ secrets.Pwd }}
-      #
+      - name: auto test
+        uses: ./.github/workflows/python-push.yml
+        with: 
+          name: hust_login_${{ matrix.os }}
+      
