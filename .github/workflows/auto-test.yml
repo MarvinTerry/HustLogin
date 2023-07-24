@@ -11,8 +11,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Build artifacts
-        uses: ./.github/workflows/build.yml
+      - name: Set up python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install --upgrade setuptools
+          pip install build
+
+      - name: Build package
+        run: python -m build
+
+      - name: upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          path: dist/*
+      
+      - name: cleanup artifacts 
+        run: rm -r dist 
 
   test:
     runs-on: ${{ matrix.os }}
