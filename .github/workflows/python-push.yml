@@ -37,10 +37,10 @@ jobs:
           path: dist
       
       - name: cleanup artifacts 
-        run: rm -r dist && tree
+        run: rm -r dist && ls -a
 
       - name: auto test
-        uses: ./.github/workflows/python-push.yml
+        uses: ./.github/workflows/auto-test.yml
         with: 
           name: hust_login_${{ matrix.os }}
       
