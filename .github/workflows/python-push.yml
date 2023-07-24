@@ -37,7 +37,7 @@ jobs:
           path: dist
       
       - name: cleanup artifacts 
-        run: rm -r dist && ls -a
+        run: rm -r dist && cat /home/runner/work/HustLogin/HustLogin/.github/workflows/auto-test.yml
 
       - name: auto test
         uses: ./.github/workflows/auto-test.yml
