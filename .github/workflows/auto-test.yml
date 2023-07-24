@@ -28,7 +28,7 @@ jobs:
       - name: upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          path: dist/*
+          path: dist/hust_login-*.whl
       
       - name: cleanup artifacts 
         run: rm -r dist 
@@ -54,9 +54,9 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          cd artifact
-          pip install hust_login-*.whl
-          python -m hust_login --autotest -U ${{ secrets.Uid }} -P ${{ secrets.Pwd }}
+          tree
+      #    pip install hust_login-*.whl
+      #    python -m hust_login --autotest -U ${{ secrets.Uid }} -P ${{ secrets.Pwd }}
 
       #- name: release
       #  uses: softprops/action-gh-release@v1
