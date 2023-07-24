@@ -1,5 +1,7 @@
-#HustPass
+# HustPass
 用于验证 HustPass@2023 的 python-lib
+
+![HustPassLogo](https://pass.hust.edu.cn/cas/comm/image/logo-inside.png)
 
 > 更快、更简单、更方便
 
@@ -15,17 +17,13 @@
 pip install hust_login
 ```
 
+此外，您需要安装```tesseract-ocr```后端：
 
-依赖如下：
-```
-Pillow
-pycryptodome
-pytesseract
-Requests
-```
+- Win：[在此处下载二进制文件](https://tesseract-ocr.github.io/tessdoc/Downloads.html)，推荐“3rd party Windows exe’s/installer”。
+- Linux：运行```sudo apt install tesseract-ocr```
 
 ## 文档
-### **````hust_login.HustPass(用户名，密码)````**
+### **```hust_login.HustLogin(用户名，密码，标头（可选)```**
 
    参数：
    - 用户名 -- pass.hust.edu.cn 的用户名 例如 U2022XXXXX
@@ -35,13 +33,17 @@ Requests
    返回：
    - 已登录的 **```requests.Session```** 对象
      - 使用它的方式与使用请求的方式相同，例如
-       ````python
+       ```python
        s = hust_login.HustPass('U2022XXXXX','您的密码')
        ret = s.get(your_url)
        print(ret.text)
-       ````
+       ```
+### **```hust_login.HustPass(用户名，密码，标头（可选))```
 
-> HustLogin接口已被弃用，请使用HustPass
+   参数：与HustLogin相同
+
+   返回：
+   - 一个类，包含QueryElectricityBills，QueryCurriculum，QueryFreeRoom等已包装的常用函数。 
 
 > 发挥创意！！！
 
@@ -98,7 +100,7 @@ Requests
    - PublicKey采用base64编码，请先解码。
    - 您加密的usr/pass应该以base64编码，并转换为文本而不是字节。 请更深入地研究我的代码，看看它是如何工作的。
 - 解码器
-   - “BytesIO”方法用于将包含 gif 的字节流转换为文件。
+   - 使用```BytesIO``` 方法将包含 gif 的字节流转换为文件。
    - 采用 Genius 方法对 4 帧 gif 进行组合和去噪：据观察，**数量**像素至少会出现在 3 帧中，而**噪声**像素小于 2。这提供了一种超级准确的方法来对图片进行去噪。 这是代码片段，尝试理解：
      ```python
      img_merge = Image.new(mode='L',size=(width,height),color=255)
@@ -106,5 +108,6 @@ Requests
          if sum([img.getpixel(pos) < 254 for img in img_list]) >= 3:
             img_merge.putpixel(pos,0)
      ``` 
+     ![org](images/captcha_code.gif) ![processed](images/captcha_code_processed.png)
 - 网络
    - 一个常见的假UA是必不可少的！ HustPass 已阻止 python-requests 的默认UA。
