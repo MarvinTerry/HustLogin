@@ -81,20 +81,20 @@ jobs:
 
     if: github.ref == 'refs/tags/*'
 
+    permissions:
+      contents: write
+
     steps:
       - name: Check if push is tag
         run: 
           echo "Push is a tag"
 
-    #  - name: Create Release
-    #    id: create_release
-    #    uses: actions/create-release@v1
-    #    env:
-    #      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #    with:
-    #      tag_name: ${{ github.ref }}
-    #      release_name: Release ${{ github.ref }}
-    #      body: |
-    #        no note yet
-    #      draft: false
-    #      prerelease: false
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            artifact/hust_login-*.whl
