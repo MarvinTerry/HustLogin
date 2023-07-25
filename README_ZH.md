@@ -3,6 +3,8 @@
 
 ![HustPassLogo](https://pass.hust.edu.cn/cas/comm/image/logo-inside.png)
 
+[![自动测试API可用性](https://github.com/jack1130/HustLogin/actions/workflows/auto-test.yml/badge.svg?branch=main)](https://github.com/jack1130/HustLogin/actions/workflows/auto-test.yml)
+
 > 更快、更简单、更方便
 
 注意：HustPass登录协议于2023年5月23日进行了重大更新，从DES迁移到RSA，以前的登录库现已不可使用。
