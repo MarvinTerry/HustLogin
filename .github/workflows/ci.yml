@@ -33,7 +33,7 @@ jobs:
       - name: upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          path: dist/hust_login-*.whl
+          path: dist
       
       - name: cleanup artifacts 
         run: rm -r dist
@@ -97,3 +97,12 @@ jobs:
         with:
           files: |
             artifact/hust_login-*.whl
+
+      - name: Publish package
+        run: tree
+        #uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
+        #with:
+        #  user: __token__
+        #  password: ${{ secrets.PYPI_API_TOKEN }}
+        #  packages_dir: artifact
+      
