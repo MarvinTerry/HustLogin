@@ -13,8 +13,8 @@ with open('secret.txt', 'r') as f:
 
 
 with HustPass(Uname, Upass) as s:
-    with open('res.json','w') as f:
-        f.write(json.dumps(s.QueryEcardBills(
-            ['2023-05-06','2023-06-06','2022-10-10']), ensure_ascii=False))
+    with open('res.json','w', encoding='utf-8') as f:
+        f.write(json.dumps(s.QueryCurriculum(
+            ('2023-04-03','2023-04-10')), ensure_ascii=False))
     
     
