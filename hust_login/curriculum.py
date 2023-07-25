@@ -12,6 +12,20 @@ def weeks_from(start_date, date):
     delta = date - start_date
     return delta.days // 7 + 1
 
+def get_dates_between(start_date_iso, end_date_iso):
+    # written by AI, tested OK
+    start_date = datetime.fromisoformat(start_date_iso)
+    end_date = datetime.fromisoformat(end_date_iso)
+    
+    if start_date > end_date:
+        start_date,end_date = end_date,start_date
+
+    num_days = (end_date - start_date).days + 1
+    dates_list = [start_date + timedelta(days=i) for i in range(num_days)]
+    
+    return [date.date().isoformat() for date in dates_list]
+
+
 def GetOneDay(session:requests.Session, _date_query:str) -> tuple[list[dict], dict]:
     '''
     PARAMETERS:\n
@@ -77,19 +91,8 @@ def GetCurriculum(session:requests.Session, _date_query:str|list[str]|int|tuple[
         if len(_date_query) !=2:
             raise ValueError('HUSTPASS: ONLY ("YYYY-MM-DD","YYYY-MM-DD") LIKE TUPLE IS ACCEPTED')
         _start_date, _end_date = _date_query
-        S_date = datetime.strptime(_start_date, '%Y-%m-%d')
-        E_date = datetime.strptime(_end_date, '%Y-%m-%d')
-        if S_date == E_date:
-            _time = S_date.date().isoformat()
-            query_list.append((_time, weeks_from(start_date_semester, _time)))
-        elif S_date < E_date:
-            S_date = datetime.strptime(_end_date, '%Y-%m-%d')
-            E_date = datetime.strptime(_start_date, '%Y-%m-%d')
-
-        if len(query_list)!=1:
-            for i in range((E_date-S_date).days+1):
-                C_date = (S_date + timedelta(days=1)).date().isoformat()
-                query_list.append((C_date, weeks_from(start_date_semester, C_date)))
+        query_list.extend([(qdate, weeks_from(start_date_semester, qdate)) 
+                           for qdate in get_dates_between(_start_date,_end_date)])
 
     elif isinstance(_date_query, list):
         for _item in _date_query:
