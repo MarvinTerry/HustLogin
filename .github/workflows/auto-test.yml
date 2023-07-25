@@ -38,7 +38,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest] #[windows-latest, macos-latest, ubuntu-latest]
+        os: [windows-latest, macos-latest, ubuntu-latest]
 
     needs: build
 
@@ -51,11 +51,20 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install dependencies
+      - name: Install dependencies(Unix-like)
+        if: matrix.os != 'windows-latest'
         run: |
           python -m pip install --upgrade pip
           cd artifact
           pip install hust_login-*.whl
+          python -m hust_login --autotest -U ${{ secrets.Uid }} -P ${{ secrets.Pwd }}
+          
+      - name: Install dependencies(WinNT-like)
+        if: matrix.os == 'windows-latest'
+        run: |
+          python -m pip install --upgrade pip
+          cd artifact
+          pip install python -m pip install --find-links=. hust_login
           python -m hust_login --autotest -U ${{ secrets.Uid }} -P ${{ secrets.Pwd }}
 
       #- name: release
