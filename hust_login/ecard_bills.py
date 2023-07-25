@@ -50,7 +50,7 @@ def get_yyyy_mm_between_dates(date_range:tuple) -> list:
     # Start iterating from the start_date to end_date (inclusive)
     current_date = start_date
     while current_date <= end_date:
-        yyyy_mm_dates.append(current_date.strftime("%Y-%m"))
+        yyyy_mm_dates.append(current_date.replace(day=1).strftime("%Y-%m-%d"))
         current_date += timedelta(days=32)  # Increment by 32 days to move to the next month
 
         # Adjust the current_date to the first day of the next month
@@ -78,7 +78,7 @@ def _GetMonth(session:requests.Session, account:str, _QueryMonth:str) -> list:
         current_page = next_page_obt
         url = '{}?account={}&curpage={}&dateStatus={}&typeStatus=1'.format(url_base,account,current_page,_QueryMonth)    
         resp = session.get(url).text
-        print(resp.strip().strip('callJson(').strip(')'))
+        # print(resp.strip().strip('callJson(').strip(')'))
         raw = json.loads(resp.strip().strip('callJson(').strip(')'))
         next_page_obt = str(raw['nextpage'])
         entrys = raw['total']
@@ -116,11 +116,11 @@ def GetEcardBills(session:requests.Session, _QueryDate:str|list[str]|tuple[str,s
         month_list = set([datetime.fromisoformat(query_date).date().replace(day=1).isoformat() for query_date in _QueryDate]) # 收集需要查询的月份
         ret = []
         for _QueryMonth in month_list:
-            ret.append([entry  # 头尾月份检测是否在日期区间内
+            ret.extend([entry
                 for entry in _GetMonth(session,account,_QueryMonth)
                 if entry['occtime'][:10] in _QueryDate])
 
-    if isinstance(_QueryDate, tuple):
+    elif isinstance(_QueryDate, tuple):
         _QueryDate = ( # 格式化日期区间
             datetime.strptime(_QueryDate[0].replace('/','-'), '%Y-%m-%d').date().isoformat(),
             datetime.strptime(_QueryDate[1].replace('/','-'), '%Y-%m-%d').date().isoformat()
@@ -129,11 +129,11 @@ def GetEcardBills(session:requests.Session, _QueryDate:str|list[str]|tuple[str,s
         month_list = get_yyyy_mm_between_dates(_QueryDate)
         for _QueryMonth in month_list:
             if _QueryMonth is month_list[0] or _QueryMonth is month_list[-1]:
-                ret.append([entry  # 头尾月份检测是否在日期区间内
+                ret.extend([entry  # 头尾月份检测是否在日期区间内
                            for entry in _GetMonth(session,account,_QueryMonth)
                            if is_inbetween_2_dates(entry['occtime'][:10],_QueryDate)])
             else:
-                ret.append(_GetMonth(session,account,_QueryMonth))
+                ret.extend(_GetMonth(session,account,_QueryMonth))
 
     elif isinstance(_QueryDate, str):
         _QueryDate.replace('/','-')

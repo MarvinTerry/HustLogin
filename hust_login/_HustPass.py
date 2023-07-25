@@ -65,7 +65,7 @@ class HustPass:
         self.CheckLoged()
         return GetFreeRoom(self.Session, QueryData)
     
-    def QueryEcardBills(self, QueryData:str) -> list:
+    def QueryEcardBills(self, QueryData:str|list[str]|tuple[str,str]) -> list:
         '''
         PARAMETERS:\n
         session     -- should be already logged in\n
