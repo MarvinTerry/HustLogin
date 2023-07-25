@@ -1,16 +1,19 @@
 name: Automated Testing of Interface Availability
 
 on:
-  push:
-  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 14 * * 1' # run on every Monday 14:00
+
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Set up python
         uses: actions/setup-python@v3
         with:
@@ -19,58 +22,9 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install --upgrade setuptools
-          pip install build
-
-      - name: Build package
-        run: python -m build
-
-      - name: upload artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          path: dist/hust_login-*.whl
-      
-      - name: cleanup artifacts 
-        run: rm -r dist 
-
-  test:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
-
-    needs: build
-
-    steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-
-      - name: Set up python
-        uses: actions/setup-python@v3
-        with:
-          python-version: '3.x'
-
-      - name: Install dependencies(Unix-like)
-        if: matrix.os != 'windows-latest'
-        run: |
-          python -m pip install --upgrade pip
-          cd artifact
-          pip install hust_login-*.whl
-          
-      - name: Install dependencies(WinNT-like)
-        if: matrix.os == 'windows-latest'
-        run: |
-          python -m pip install --upgrade pip
-          cd artifact
-          pip install --find-links=. hust_login
+          pip install hust_login
       
       - name: Test module
         run: |
           python -m hust_login --autotest -U ${{ secrets.Uid }} -P ${{ secrets.Pwd }}
-      #- name: release
-      #  uses: softprops/action-gh-release@v1
-      #  with:
-      #    files: "dist/**"
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
