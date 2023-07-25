@@ -10,6 +10,12 @@ class HustPass_NotLoged(BaseException):
 
 class HustPass:
     def __init__(self, Uid:str, Pwd:str, headers:dict=None) -> None:
+        '''
+        PARAMETERS:\n
+        username -- Username of pass.hust.edu.cn  e.g. U2022XXXXX\n
+        password -- Password of pass.hust.edu.cn\n
+        headers  -- Headers you want to use, optional
+        '''
         self.Session = HustLogin(Uid, Pwd, headers)
         self.Uid = Uid
 
