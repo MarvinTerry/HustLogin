@@ -3,6 +3,8 @@ A python-lib for authenticating HustPass@2023
 
 ![HustPassLogo](https://pass.hust.edu.cn/cas/comm/image/logo-inside.png)
 
+[![Automated Testing of Interface Availability](https://github.com/jack1130/HustLogin/actions/workflows/auto-test.yml/badge.svg?branch=main)](https://github.com/jack1130/HustLogin/actions/workflows/auto-test.yml)
+
 > Faster, Easier, Lighter
 
 Attention: HustPass login protocol underwent a major update on 2023/05/23, moving from DES to RSA, previous login libraries are now deprecated.
