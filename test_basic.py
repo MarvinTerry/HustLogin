@@ -6,6 +6,7 @@ logging.basicConfig(level=logging.DEBUG,\
 Uname = input('Uid:')
 Upass = input('Pwd:')
 
+
 with HustPass(Uname, Upass) as s:
-    print(s.QueryFreeRoom('2023-4-5'))
+    print(s.QueryEcardBills('2023-05-20'))
     

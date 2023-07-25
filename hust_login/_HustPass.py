@@ -2,6 +2,7 @@ from .login import HustLogin, CheckLoginStatu
 from .utility_bills import GetElectricityBill
 from .curriculum import GetCurriculum
 from .free_room import GetFreeRoom
+from .ecard_bills import GetEcardBills
 
 class HustPass_NotLoged(BaseException):
     def __init__(self, *args: object) -> None:
@@ -63,3 +64,19 @@ class HustPass:
         '''
         self.CheckLoged()
         return GetFreeRoom(self.Session, QueryData)
+    
+    def QueryEcardBills(self, QueryData:str) -> list:
+        '''
+        PARAMETERS:\n
+        session     -- should be already logged in\n
+        Uid         -- str  : your student uid\n
+        QueryDates  -- str  : in form of '2023-7-21' or '2023/7/21'\n
+                    -- str  : in form of '2023-7' or '2023/7'
+                    -- list : a list, each item in the same form\n
+                    -- tuple: two str, including the start and the end\n
+        \n
+        RETURN:\n
+
+        '''
+        self.CheckLoged()
+        return GetEcardBills(self.Session, QueryData)
