@@ -57,7 +57,6 @@ jobs:
           python -m pip install --upgrade pip
           cd artifact
           pip install hust_login-*.whl
-          python -m hust_login --autotest -U ${{ secrets.Uid }} -P ${{ secrets.Pwd }}
           
       - name: Install dependencies(WinNT-like)
         if: matrix.os == 'windows-latest'
@@ -65,8 +64,10 @@ jobs:
           python -m pip install --upgrade pip
           cd artifact
           pip install --find-links=. hust_login
+      
+      - name: Test module
+        run: |
           python -m hust_login --autotest -U ${{ secrets.Uid }} -P ${{ secrets.Pwd }}
-
       #- name: release
       #  uses: softprops/action-gh-release@v1
       #  with:
