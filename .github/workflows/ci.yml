@@ -79,35 +79,22 @@ jobs:
 
     needs: test
 
+    if: github.ref == 'refs/tags/*'
+
     steps:
       - name: Check if push is tag
-        run: |
-          if [ "${{ github.event_name }}" != "push" ]; then
-            echo "Not a push"
-            exit 0
-          fi
-
-          if [ -z "${{ github.ref }}" ]; then
-            echo "No ref"
-            exit 0
-          fi
-
-          if [[ "${{ github.ref }}" != "refs/tags/"* ]]; then
-            echo "Not a tag"
-            exit 0
-          fi
-
+        run: 
           echo "Push is a tag"
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            no note yet
-          draft: false
-          prerelease: false
+    #  - name: Create Release
+    #    id: create_release
+    #    uses: actions/create-release@v1
+    #    env:
+    #      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #    with:
+    #      tag_name: ${{ github.ref }}
+    #      release_name: Release ${{ github.ref }}
+    #      body: |
+    #        no note yet
+    #      draft: false
+    #      prerelease: false
