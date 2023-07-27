@@ -83,12 +83,17 @@ def _GetMonth(session:requests.Session, account:str, _QueryMonth:str) -> list:
         next_page_obt = str(raw['nextpage'])
         entrys = raw['total']
         ret.extend(entrys)
-    selected_col = ['mercname','sign_tranamt','cardbal','occtime']
-    ret = [{column:entry[column] for column in selected_col} for entry in ret]
+    selected_col = {
+        'name'    :'mercname',
+        'money' :'sign_tranamt',
+        'balance' :'cardbal',
+        'time'    :'occtime'
+    }
+    ret = [{column_new:entry[column_old] for column_new,column_old in selected_col.items()} for entry in ret]
     for entry in ret:
-        for col in ['sign_tranamt','cardbal']:
+        for col in ['money','balance']:
             entry[col] = float(entry[col])/100
-        entry['occtime'] = raw_to_iso_format(entry['occtime'])
+        entry['time'] = raw_to_iso_format(entry['time'])
     return ret
 
 def GetEcardBills(session:requests.Session, _QueryDate:str|list[str]|tuple[str,str]) -> dict:
