@@ -3,7 +3,7 @@ name: Automated Testing of Interface Availability
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 14 * * 1' # run on every Monday 14:00
+    - cron: '0 6 * * *' # run on every day 14:00
 
 jobs:
   test:
