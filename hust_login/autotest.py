@@ -1,7 +1,4 @@
-from . import HustPass
-
-def full_test(Uid,Pwd):
-    hpass = HustPass(Uid, Pwd)
+def full_test(hpass):
     try:
         hpass.QueryCurriculum('2023-04-27')
         hpass.QueryCurriculum(['2023-04-27','2023-03-27','2023-04-07'])
@@ -19,4 +16,8 @@ def full_test(Uid,Pwd):
         hpass.QueryFreeRoom('2023-09-02')
     except:
         return 30
+    try:
+        hpass.QueryEcardBills('2023-09-02')
+    except:
+        return 40
     return 0
