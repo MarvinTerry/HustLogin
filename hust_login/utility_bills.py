@@ -87,7 +87,7 @@ def GetElectricityBill(session:requests.Session, Uid:str, _QueryDate:str|list[st
     elif isinstance(Query_list, tuple):
         ret = _GetOneDay(session, MeterID, Query_list[0], Query_list[1])
 
-    return {'RoomName':ret_Name, 'RemainPower':ret_remainPower, 'DayCosts':ret}
+    return {'room':ret_Name, 'remain_power':ret_remainPower, 'daily_cost':ret}
 
 def _GetOneDay(session:requests.Session, MeterID:str, S_Date:str, E_Date:str) -> list[dict]:
     payload3 = session.get(
@@ -101,5 +101,5 @@ def _GetOneDay(session:requests.Session, MeterID:str, S_Date:str, E_Date:str) ->
         cost_unit = re.search('<dw>(.*)</dw>', item).group(1)
         money = re.search('<dayUseMeony>(.*)</dayUseMeony>',item).group(1)
         date = re.search('<curDayTime>(.*)</curDayTime>', item).group(1)
-        ret_daycost.append({'date':date,'daycost':elc_cost+cost_unit,'money':money}) # 调换日期、电费顺序，更加合理
+        ret_daycost.append({'date':date,'cost':elc_cost+cost_unit,'money':money}) # 调换日期、电费顺序，更加合理
     return ret_daycost
