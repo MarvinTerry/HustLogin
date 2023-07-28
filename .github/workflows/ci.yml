@@ -81,10 +81,6 @@ jobs:
       contents: write
 
     steps:
-      - name: Check if push is tag
-        run: 
-          echo "Push is a tag"
-
       - name: Download artifacts
         uses: actions/download-artifact@v3
 
