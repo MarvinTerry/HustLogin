@@ -125,7 +125,7 @@ def GetEcardBills(session:requests.Session, _QueryDate:str|list[str]|tuple[str,s
         for _QueryMonth in month_list:
             ret.extend([entry
                 for entry in _GetMonth(session,account,_QueryMonth)
-                if entry['occtime'][:10] in _QueryDate])
+                if entry['time'][:10] in _QueryDate])
 
     elif isinstance(_QueryDate, tuple):
         _QueryDate = ( # 格式化日期区间
@@ -138,7 +138,7 @@ def GetEcardBills(session:requests.Session, _QueryDate:str|list[str]|tuple[str,s
             if _QueryMonth is month_list[0] or _QueryMonth is month_list[-1]:
                 ret.extend([entry  # 头尾月份检测是否在日期区间内
                            for entry in _GetMonth(session,account,_QueryMonth)
-                           if is_inbetween_2_dates(entry['occtime'][:10],_QueryDate)])
+                           if is_inbetween_2_dates(entry['time'][:10],_QueryDate)])
             else:
                 ret.extend(_GetMonth(session,account,_QueryMonth))
 
@@ -153,7 +153,7 @@ def GetEcardBills(session:requests.Session, _QueryDate:str|list[str]|tuple[str,s
             _QueryDate = datetime.strptime(_QueryDate, '%Y-%m-%d').date().isoformat() # 格式化日期
             return [entry 
                     for entry in _GetMonth(session,account,_QueryDate) 
-                    if entry['occtime'][:10] == _QueryDate] # 检测是否为所需日期
+                    if entry['time'][:10] == _QueryDate] # 检测是否为所需日期
         else:
             raise TypeError('HUSTPASS: UNSUPPORT TYPE')
     else:
