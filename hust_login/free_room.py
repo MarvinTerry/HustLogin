@@ -1,10 +1,8 @@
 import requests
 import json
-# from .login import CheckLoginStatu
-import re
-from datetime import datetime, timedelta
+from datetime import datetime
 
-def GetFreeRoom(session:requests.Session, _date_query:str) -> dict:
+def GetFreeRooms(session:requests.Session, _date_query:str) -> dict:
     '''
     PARAMETERS:\n
     session -- should be already logged in\n
