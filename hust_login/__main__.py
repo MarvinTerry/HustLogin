@@ -116,6 +116,9 @@ def main():
         HUSTpass = HustPass(Uid, Pwd, header)
     except NameError:
         return __show_usage()
+    except ConnectionRefusedError:
+        print('HUSTPASS: Authentication failed')
+        return -1
     
     if autotest:
         from .autotest import full_test
