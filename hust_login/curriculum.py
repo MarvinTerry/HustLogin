@@ -63,7 +63,7 @@ def _GetOneDay(session:requests.Session, date_query:str, week:int) -> tuple[list
     ret['curriculum'] = class_list
     return ret
 
-def GetCurriculum(session:requests.Session, _date_query:str|list[str]|int|tuple[str,str]) -> list:
+def QuerySchedules(session:requests.Session, _date_query:str|list[str]|int|tuple[str,str]) -> list:
     '''
     PARAMETERS:\n
     session -- should be already logged in\n

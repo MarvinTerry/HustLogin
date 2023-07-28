@@ -80,7 +80,7 @@ def HustLogin(username:str, password:str, headers:dict=None) -> requests.Session
     try:
         resp.headers['Location']
     except:
-        raise Exception("---HustPass Failed---")
+        raise ConnectionRefusedError("---HustPass Failed---")
     log.info("---HustPass Succeed---")
     log.debug('Thank you for using hust_login')
     return r

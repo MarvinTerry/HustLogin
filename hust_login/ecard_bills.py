@@ -78,7 +78,6 @@ def _GetMonth(session:requests.Session, account:str, _QueryMonth:str) -> list:
         current_page = next_page_obt
         url = '{}?account={}&curpage={}&dateStatus={}&typeStatus=2'.format(url_base,account,current_page,_QueryMonth)    
         resp = session.get(url).text
-        print(resp.strip().strip('callJson(').strip(')'))
         raw = json.loads(resp.strip().strip('callJson(').strip(')'))
         next_page_obt = str(raw['nextpage'])
         entrys = raw['consume']
@@ -112,7 +111,7 @@ def GetEcardBills(session:requests.Session, _QueryDate:str|list[str]|tuple[str,s
     {'RoomName': 'XXX', 'RemainPower': 'XXX', 'DayCost': [{'daycost': 'XXX', 'date': 'YYYY-MM-DD', 'money': 'XXX'}]}
     '''
     if not CheckLoginStatu(session):
-        raise ConnectionRefusedError('HUSTPASS: YOU HAVENT LOGGED IN')
+        raise ConnectionRefusedError('HUSTPASS: YOU HAVEN`T LOGGED IN')
     
     # 抓取校园卡账户
     resp = session.get('http://ecard.m.hust.edu.cn/wechat-web/QueryController/Queryurl.html')

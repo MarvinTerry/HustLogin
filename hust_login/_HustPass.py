@@ -1,7 +1,7 @@
 from .login import HustLogin, CheckLoginStatu
 from .utility_bills import GetElectricityBill
-from .curriculum import GetCurriculum
-from .free_room import GetFreeRoom
+from .curriculum import QuerySchedules
+from .free_room import GetFreeRooms
 from .ecard_bills import GetEcardBills
 
 class HustPass_NotLoged(BaseException):
@@ -44,7 +44,7 @@ class HustPass:
         self.CheckLoged()
         return GetElectricityBill(self.Session, self.Uid, QueryDates)
     
-    def QueryCurriculum(self, QueryData:str|list[str]|int|tuple[str,str]) -> list:
+    def QuerySchedules(self, QueryData:str|list[str]|int|tuple[str,str]) -> list:
         '''
         PARAMETERS:\n
         session -- should be already logged in\n
@@ -57,9 +57,9 @@ class HustPass:
         [{'Date':'YYYY-MM-DD','Curriculum':[{'No':'1', 'ClassName': 'XXX', 'TeacherName': 'XXX'}]}]
         '''
         self.CheckLoged()
-        return GetCurriculum(self.Session, QueryData)
+        return QuerySchedules(self.Session, QueryData)
     
-    def QueryFreeRoom(self, QueryData:str) -> dict:
+    def QueryFreeRooms(self, QueryData:str) -> dict:
         '''
         PARAMETERS:\n
         session -- should be already logged in\n
@@ -69,7 +69,7 @@ class HustPass:
         {'Date':'YYYY-MM-DD','Buildings':['东九楼A':{'No':'1','Roomlist': ['A101','A102']}]}
         '''
         self.CheckLoged()
-        return GetFreeRoom(self.Session, QueryData)
+        return GetFreeRooms(self.Session, QueryData)
     
     def QueryEcardBills(self, QueryData:str|list[str]|tuple[str,str]) -> list:
         '''

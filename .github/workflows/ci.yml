@@ -6,11 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest] #[windows-latest, macos-latest, ubuntu-latest]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -85,10 +81,6 @@ jobs:
       contents: write
 
     steps:
-      - name: Check if push is tag
-        run: 
-          echo "Push is a tag"
-
       - name: Download artifacts
         uses: actions/download-artifact@v3
 
@@ -96,9 +88,10 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            artifact/hust_login-*.whl
+            artifact/*
 
       - name: Publish package
+        if: (! endsWith(github.ref, 'dev'))
         uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
         with:
           user: __token__

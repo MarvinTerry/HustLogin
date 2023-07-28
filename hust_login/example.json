@@ -1,0 +1,26 @@
+{
+    "Uid":"SOME STR",
+    "Pwd":"SOME STR",
+    "Headers":"OPITONAL",
+    "Tasks":{
+        "QueryElectricityBills":{
+            "str":"ONE DAY",
+            "list":["ONE DAY","ANOTHER DAY","ADD MORE OR NOT"],
+            "tuple":["ONE DAY","ONLY TWO VALVE"]
+        },
+        "QuerySchedules":{
+            "str":"ONE DAY",
+            "list":["ONE DAY","ANOTHER DAY","ADD MORE OR NOT"],
+            "tuple":["ONE DAY","ONLY TWO VALVE"],
+            "int": 0
+        },
+        "QueryFreeRooms":{
+            "str":"ONE DAY"
+        },
+        "QueryEcardBills":{
+            "str":"ONE DAY",
+            "list":["ONE DAY","ANOTHER DAY","ADD MORE OR NOT"],
+            "tuple":["ONE DAY","ONLY TWO VALVE"]
+        }
+    }
+}
