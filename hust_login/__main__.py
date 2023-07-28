@@ -1,4 +1,5 @@
 import sys
+import os
 from getopt import getopt
 from . import HustPass
 import logging
@@ -75,7 +76,7 @@ def main():
         elif opt == '--autotest':
             autotest = True
         elif opt == '--inputformat':
-            with open('example.json','r') as fp:
+            with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'example.json'),'r') as fp:
                 print(fp.read())
             return 0
         elif opt =='-U':
