@@ -76,19 +76,26 @@ def _GetMonth(session:requests.Session, account:str, _QueryMonth:str) -> list:
     ret = []
     while(next_page_obt != '0'):
         current_page = next_page_obt
-        url = '{}?account={}&curpage={}&dateStatus={}&typeStatus=1'.format(url_base,account,current_page,_QueryMonth)    
+        url = '{}?account={}&curpage={}&dateStatus={}&typeStatus=2'.format(url_base,account,current_page,_QueryMonth)    
         resp = session.get(url).text
-        # print(resp.strip().strip('callJson(').strip(')'))
+        print(resp.strip().strip('callJson(').strip(')'))
         raw = json.loads(resp.strip().strip('callJson(').strip(')'))
         next_page_obt = str(raw['nextpage'])
-        entrys = raw['total']
+        entrys = raw['consume']
         ret.extend(entrys)
-    selected_col = ['mercname','sign_tranamt','cardbal','occtime']
-    ret = [{column:entry[column] for column in selected_col} for entry in ret]
+    selected_col = {
+        'name'    :'mercname',
+        'money'   :'tranamt',
+        'balance' :'cardbal',
+        'time'    :'occtime',
+        'account' :'tranname'
+    }
+    ret = [{column_new:entry[column_old] for column_new,column_old in selected_col.items()} for entry in ret]
     for entry in ret:
-        for col in ['sign_tranamt','cardbal']:
+        for col in ['money','balance']:
             entry[col] = float(entry[col])/100
-        entry['occtime'] = raw_to_iso_format(entry['occtime'])
+        entry['time'] = raw_to_iso_format(entry['time'])
+        entry['account'].strip('消费')
     return ret
 
 def GetEcardBills(session:requests.Session, _QueryDate:str|list[str]|tuple[str,str]) -> dict:

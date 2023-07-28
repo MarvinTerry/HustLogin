@@ -35,7 +35,7 @@ def GetFreeRoom(session:requests.Session, _date_query:str) -> dict:
 
     raw_data = []
     # 建立数据结构(AI写的，蛮炫酷)
-    ret = {'Date':date_query,'Buildings':{buiding_name: [{'No': str(i), 'Roomlist': []} for i in range(1,13)] for buiding_name,buiding_id in buildings.items()}}
+    ret = {'date':date_query,'buildings':{buiding_name: [{'No': str(i), 'roomlist': []} for i in range(1,13)] for buiding_name,buiding_id in buildings.items()}}
 
     for buiding_name,buiding_id in buildings.items():
         # 爬取每个教学楼数据
@@ -43,6 +43,6 @@ def GetFreeRoom(session:requests.Session, _date_query:str) -> dict:
         raw_data.extend(json.loads(resp.text)['dataList'])
     
     for item in raw_data:
-        ret['Buildings'][item['JXLMC']][item['JC']-1]['Roomlist'].append(item['JSMC'].strip('教室'))
+        ret['buildings'][item['JXLMC']][item['JC']-1]['roomlist'].append(item['JSMC'].strip('教室'))
 
     return ret

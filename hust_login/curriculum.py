@@ -55,12 +55,12 @@ def _GetOneDay(session:requests.Session, date_query:str, week:int) -> tuple[list
     resp_api = session.get('http://hub.m.hust.edu.cn/kcb/todate/JsonCourse.action?sj={}&zc={}'.format(date_query, week))
     content=json.loads(resp_api.text)
     class_list = []
-    ret = {'Date':date_query} 
+    ret = {'date':date_query} 
     for item in content:
         if item['kc'][0]['JSMC']=='—':
             continue
-        class_list.append({'No':item['jcx'],'ClassName':item['kc'][0]['KCMC'],'TeacherName':item['kc'][0]['XM'],'Place':item['kc'][0]['JSMC']})
-    ret['Curriculum'] = class_list
+        class_list.append({'No':item['jcx'],'course':item['kc'][0]['KCMC'],'teacher':item['kc'][0]['XM'],'place':item['kc'][0]['JSMC']})
+    ret['curriculum'] = class_list
     return ret
 
 def GetCurriculum(session:requests.Session, _date_query:str|list[str]|int|tuple[str,str]) -> list:
