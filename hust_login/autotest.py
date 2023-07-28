@@ -19,4 +19,8 @@ def full_test(Uid,Pwd):
         hpass.QueryFreeRoom('2023-09-02')
     except:
         return 30
+    try:
+        hpass.QueryEcardBills('2023-09-02')
+    except:
+        return 40
     return 0
