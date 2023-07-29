@@ -3,7 +3,7 @@
 
 ![HustPassLogo](https://pass.hust.edu.cn/cas/comm/image/logo-inside.png)
 
-[![自动测试API可用性](https://github.com/jack1130/HustLogin/actions/workflows/auto-test.yml/badge.svg?branch=main)](https://github.com/jack1130/HustLogin/actions/workflows/auto-test.yml)
+[![Automated Testing of Interface Availability](https://github.com/MarvinTerry/HustLogin/actions/workflows/auto-test.yml/badge.svg?branch=main)](https://github.com/MarvinTerry/HustLogin/actions/workflows/auto-test.yml)
 
 > 更快、更简单、更方便
 
