@@ -3,7 +3,7 @@ A python-lib for authenticating HustPass@2023
 
 ![HustPassLogo](https://pass.hust.edu.cn/cas/comm/image/logo-inside.png)
 
-[![Automated Testing of Interface Availability](https://github.com/jack1130/HustLogin/actions/workflows/auto-test.yml/badge.svg?branch=main)](https://github.com/jack1130/HustLogin/actions/workflows/auto-test.yml)
+[![Automated Testing of Interface Availability](https://github.com/MarvinTerry/HustLogin/actions/workflows/auto-test.yml/badge.svg?branch=main)](https://github.com/MarvinTerry/HustLogin/actions/workflows/auto-test.yml)
 
 > Faster, Easier, Lighter
 
