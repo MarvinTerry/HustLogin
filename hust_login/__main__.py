@@ -85,4 +85,4 @@ def main():
         print(_tasker(HUSTpass, conf['Tasks']))
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())
