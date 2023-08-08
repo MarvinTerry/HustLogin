@@ -7,11 +7,7 @@ on:
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Set up python
@@ -24,24 +20,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install hust_login
 
-      - name: Install MacPorts(Mac)
-        if: matrix.os == 'macos-latest'
-        uses: melusina-org/gha-install-macports@v1.0.0
-
-      - name: Install tesseract(Mac)
-        if: matrix.os == 'macos-latest'
-        run: |
-          sudo port install tesseract
-
-      - name: Install tesseract(Linux)
-        if: matrix.os == 'ubuntu-latest'
+      - name: Install tesseract
         run: |
           sudo apt install tesseract-ocr -y
-
-      - name: Install tesseract(Windows)
-        if: matrix.os == 'windows-latest'
-        run: |
-          echo 'Not available'
       
       - name: Test module
         run: |
