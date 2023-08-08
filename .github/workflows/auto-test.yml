@@ -24,7 +24,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install hust_login
 
-      - name: Install MacPorts
+      - name: Install MacPorts(Mac)
         if: matrix.os == 'macos-latest'
         uses: melusina-org/gha-install-macports@v1.0.0
 
@@ -38,7 +38,7 @@ jobs:
         run: |
           sudo apt install tesseract
 
-      - name: Install tesseract(Linux)
+      - name: Install tesseract(Windows)
         if: matrix.os == 'windows-latest'
         run: |
           echo 'Not available'
