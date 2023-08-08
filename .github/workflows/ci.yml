@@ -87,7 +87,7 @@ jobs:
       
       - name: Test module
         run: |
-          python -m hust_login --autotest -U ${{ secrets.Uid }} -P ${{ secrets.Pwd }}
+          python -m hust_login --autotest -U ${{ secrets.UID }} -P ${{ secrets.PWD }}
           
   release:
     runs-on: ubuntu-latest
