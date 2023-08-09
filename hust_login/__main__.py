@@ -5,16 +5,15 @@ from getopt import getopt
 from . import HustPass
 from ._cli import _show_usage,_tasker
 import logging
-logging.basicConfig(level=logging.INFO,\
-                    format='[%(levelname)s]  %(message)s')
 
 def main():
     try:
-        opts, args = getopt(sys.argv[1:],'U:P:f:o:hv',['autotest','help','version','inputformat'])
+        opts, args = getopt(sys.argv[1:],'U:P:f:o:hv',['autotest','help','version','inputformat','debug'])
     except:
         return _show_usage()
 
     autotest = False
+    log_level = logging.INFO
     fpath = None
     opath = None
     for opt,arg in opts:
@@ -29,6 +28,8 @@ def main():
             with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'example.json'),'r') as fp:
                 print(fp.read())
             return 0
+        elif opt == '--debug':
+            log_level = logging.DEBUG
         elif opt =='-U':
             Uid = arg
         elif opt == '-P':
@@ -39,6 +40,9 @@ def main():
             opath = arg
         else:
             return _show_usage()
+
+    logging.basicConfig(level=log_level,\
+                        format='[%(levelname)s]  %(message)s')
     
     header = None
     if fpath is not None:
