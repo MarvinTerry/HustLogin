@@ -11,6 +11,8 @@ Attention: HustPass login protocol underwent a major update on 2023/05/23, movin
 
 Tutorials on [Bilibili](https://www.bilibili.com/video/BV1bX4y1j7vR/)
 
+Plug-in for python-requests [HustAuth](https://github.com/MarvinTerry/HustAuth)
+
 ## Installing
 
 The library has been made publicly available on PyPI **[hust_login](https://pypi.org/project/hust-login/)**
