@@ -63,7 +63,7 @@ def _GetOneDay(session:requests.Session, date_query:str, week:int) -> tuple[list
     ret['curriculum'] = class_list
     return ret
 
-def QuerySchedules(session:requests.Session, _date_query:str|list[str]|int|tuple[str,str]) -> list:
+def QuerySchedules(session:requests.Session, _date_query:str|list[str]|int|tuple[str,str], semester:str=None) -> list:
     '''
     PARAMETERS:\n
     session -- should be already logged in\n
@@ -71,10 +71,20 @@ def QuerySchedules(session:requests.Session, _date_query:str|list[str]|int|tuple
             -- list : a list, each item in the same form as above\n
             -- int  : the week after the semester started\n
             -- tuple: two str, including the start and the end\n
+    semester-- str  : the semester you want e.g. 20221:the first semester of 2022~2023 school year\n
     \n
     RETURN:\n
     [{'Date':'YYYY-MM-DD','Curriculum':[{'No':'1', 'ClassName': 'XXX', 'TeacherName': 'XXX'}]}]
     '''
+    session.get('http://hub.m.hust.edu.cn/kcb/todate/datecourseNew.action')
+    
+    print(semester)
+    if semester is not None:
+        if isinstance(semester, str) and len(semester) == 5:
+            session.post('http://hub.m.hust.edu.cn/kcb/todate/XqJsonCourse.action',data={'xqh':int(semester)})
+        else:
+            raise TypeError('HUSTPASS: SEMESTER INPUT TYPE ERROR')
+    
     resp_html = session.get('http://hub.m.hust.edu.cn/kcb/todate/datecourseNew.action')
     start_date_semester =datetime.strptime(re.search(
         'var sDate = "(.*)";', resp_html.text).group(1), '%Y-%m-%d')  # 从html抓取学期开始日期

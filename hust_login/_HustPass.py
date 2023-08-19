@@ -44,7 +44,7 @@ class HustPass:
         self.CheckLoged()
         return GetElectricityBill(self.Session, self.Uid, QueryDates)
     
-    def QuerySchedules(self, QueryData:str|list[str]|int|tuple[str,str]) -> list:
+    def QuerySchedules(self, QueryData:str|list[str]|int|tuple[str,str], semester:str=None) -> list:
         '''
         PARAMETERS:\n
         session -- should be already logged in\n
@@ -52,12 +52,13 @@ class HustPass:
                 -- list : a list, each item in the same form as above\n
                 -- int  : the week after the semester started\n
                 -- tuple: two str, including the start and the end\n
+        semester-- str  : the semester you want e.g. 20221:the first semester of 2022~2023 school year\n
         \n
         RETURN:\n
         [{'Date':'YYYY-MM-DD','Curriculum':[{'No':'1', 'ClassName': 'XXX', 'TeacherName': 'XXX'}]}]
         '''
         self.CheckLoged()
-        return QuerySchedules(self.Session, QueryData)
+        return QuerySchedules(self.Session, QueryData, semester)
     
     def QueryFreeRooms(self, QueryData:str) -> dict:
         '''
