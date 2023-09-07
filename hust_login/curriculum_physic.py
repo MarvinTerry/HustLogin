@@ -12,10 +12,10 @@ def GetPhysicsLab(session:requests.Session):
         raise ConnectionRefusedError('HUSTPASS: YOU HAVENT LOGGED IN')
 
     resp_json = session.get('http://empxk.hust.edu.cn/weixin/WeChatChooseCourse/getMyCourseSchedule')
-    resp = json.loads(resp_json)
-    if resp['state'] == '00000':
+    resp = json.loads(resp_json.text)
+    if resp['state'] == '0000':
 
-        add_file_link = False # 
+        add_file_link = True # 
 
         load = len(resp['data'])
         if load == 1 or load == 0:
@@ -24,7 +24,7 @@ def GetPhysicsLab(session:requests.Session):
         ret = []
         for item in resp['data']:
             if len(item) == 1:
-                pass # ignore
+                continue # ignore
             _statu = item['status']
             if _statu == 1:
                 statu = 'Normal'
@@ -43,8 +43,8 @@ def GetPhysicsLab(session:requests.Session):
                     'Sections':item['session_name']}, # 上午/下午/晚上
             'Statu':statu}
             if add_file_link:
-                res['FileLinks'] = 'http://empxk.hust.edu.cn/weixin/course_resources.html?'+item['course_id']
-                # http://empxk.hust.edu.cn/weixin/introduction.html? + item['course_id'] is the itro
+                res['FileLinks'] = 'http://empxk.hust.edu.cn/weixin/course_resources.html?'+str(item['course_id'])
+                # http://empxk.hust.edu.cn/weixin/introduction.html? + item['course_id'] is the intro
             ret.append(res)
 
         return ret
