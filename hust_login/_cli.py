@@ -49,6 +49,68 @@ def __get_result(Dict:dict, Func) -> dict:
             raise KeyError('UNEXPECTED PARAMETERS')
     return ret
 
+interface = [
+    {
+        'type': 'list',
+        'name': 'init',
+        'message': 'What do you want to do?',
+        'choices': [
+            'Login',
+            'Exit'
+        ]
+    },
+    {
+        'type':'list',
+        'name':'actions',
+        'message':'What you want to do?',
+        'choices':[
+            'Bills',
+            'Curriculum',
+            'Rooms',
+            'Exit'
+        ]
+    },
+    {
+        'type':'list',
+        'name':'bills',
+        'message':'Which your want?',
+        'choices':[
+            'Dormitory',
+            'E-card',
+            'Go Back'
+        ]
+    }
+]
+login_para = [
+    {
+        'type': 'input',
+        'name': 'UID',
+        'message': 'Your Uid:',
+        # 'validate': PhoneNumberValidator
+    },
+    {
+        'type': 'password',
+        'name': 'PWD',
+        'message': 'Your Pwd:'
+    },
+    {
+        'type': 'input',
+        'name': 'DATE',
+        'message': 'Which time? [format:1970-01-01]'
+    },
+    {
+        'type': 'confirm',
+        'name': 'IsExit',
+        'message': 'Wrong uid,pwd, try again?',
+        'default': 'Ture'
+    }
+]
+
+def __get_date():
+    from PyInquirer import prompt
+    answer = prompt(login_para[2])
+    return answer['DATE']
+
 def cli():
     def prompt(arg):
         from PyInquirer import prompt as _prompt#, Separator
@@ -66,63 +128,6 @@ def cli():
     #                message='Please enter a valid Uid',
     #                cursor_position=len(document.text))  # Move cursor to end
             
-    interface = [
-        {
-            'type': 'list',
-            'name': 'init',
-            'message': 'What do you want to do?',
-            'choices': [
-                'Login',
-                'Exit'
-            ]
-        },
-        {
-            'type':'list',
-            'name':'actions',
-            'message':'What you want to do?',
-            'choices':[
-                'Bills',
-                'Curriculum',
-                'Rooms',
-                'Exit'
-            ]
-        },
-        {
-            'type':'list',
-            'name':'bills',
-            'message':'Which your want?',
-            'choices':[
-                'Dormitory',
-                'E-card',
-                'Go Back'
-            ]
-        }
-    ]
-    login_para = [
-        {
-            'type': 'input',
-            'name': 'UID',
-            'message': 'Your Uid:',
-            # 'validate': PhoneNumberValidator
-        },
-        {
-            'type': 'password',
-            'name': 'PWD',
-            'message': 'Your Pwd:'
-        },
-        {
-            'type': 'input',
-            'name': 'DATE',
-            'message': 'Which time? [format:1970-01-01]'
-        },
-        {
-            'type': 'confirm',
-            'name': 'IsExit',
-            'message': 'Wrong uid,pwd, try again?',
-            'default': 'Ture'
-        }
-    ]
-    
     answer = prompt(interface[0])
     if answer['init'] == 'Exit':
         return 0
@@ -149,16 +154,16 @@ def cli():
             answer = prompt(interface[2])
             if answer['bills'] == 'Go Back':
                 continue
-            date = prompt(login_para[2])
+            date = __get_date()
             if answer['bills'] == 'E-card':
                 result = HUSTpass.QueryEcardBills(date)
             elif answer['bills'] == 'Dormitory':
                 result = HUSTpass.QueryElectricityBills(date)
         elif answer['actions'] == 'Curriculum':
-            date = prompt(login_para[2])
+            date = __get_date()
             result = HUSTpass.QuerySchedules(date)
         elif answer['actions'] == 'Rooms':
-            date = prompt(login_para[2])
+            date = __get_date()
             result = HUSTpass.QueryFreeRooms(date)
 
         print(result)
