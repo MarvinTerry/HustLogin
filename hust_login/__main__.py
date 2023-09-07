@@ -3,12 +3,12 @@ import os
 import json
 from getopt import getopt
 from . import HustPass
-from ._cli import _show_usage,_tasker
+from ._cli import _show_usage,_tasker,cli
 import logging
 
 def main():
     try:
-        opts, args = getopt(sys.argv[1:],'U:P:f:o:hv',['autotest','help','version','inputformat','debug'])
+        opts, args = getopt(sys.argv[1:],'U:P:f:o:hvi',['autotest','help','version','inputformat','debug','interactive'])
     except:
         return _show_usage()
 
@@ -38,6 +38,8 @@ def main():
             fpath = arg
         elif opt == '-o':
             opath = arg
+        elif opt in ['-i','--interactive']:
+            return cli()
         else:
             return _show_usage()
 
@@ -87,6 +89,7 @@ def main():
             return -1
     else:
         print(_tasker(HUSTpass, conf['Tasks']))
+        return 0
 
 if __name__ == '__main__':
     sys.exit(main())
