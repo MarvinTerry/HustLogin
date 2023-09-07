@@ -50,7 +50,12 @@ def __get_result(Dict:dict, Func) -> dict:
     return ret
 
 def cli():
-    from PyInquirer import prompt#, Separator
+    def prompt(arg):
+        from PyInquirer import prompt as _prompt#, Separator
+        ret = _prompt(arg)
+        if not len(ret):
+            raise Exception('Do not click, use Enter')
+        return ret
     #import prompt_toolkit
 
     #class PhoneNumberValidator(prompt_toolkit.validation.Validator):
@@ -103,7 +108,7 @@ def cli():
         {
             'type': 'password',
             'name': 'PWD',
-            'message': 'Your Pwd'
+            'message': 'Your Pwd:'
         },
         {
             'type': 'input',
@@ -127,10 +132,11 @@ def cli():
         try:
             from . import HustPass
             HUSTpass = HustPass(auth['UID'], auth['PWD'])
+            break
         except NameError:
             answer = prompt(login_para[3])
             if not answer['IsExit']:
-                break
+                return -1
         except ConnectionRefusedError:
             print('HUSTPASS: Authentication failed')
             return -1
@@ -159,6 +165,3 @@ def cli():
         
     print('Cleaning...') # Useless, just for Experience
     return 0
-
-if __name__ == '__main__':
-    cli()
