@@ -3,6 +3,7 @@ from .utility_bills import GetElectricityBill
 from .curriculum import QuerySchedules
 from .free_room import GetFreeRooms
 from .ecard_bills import GetEcardBills
+from .curriculum_physic import GetPhysicsLab
 
 class HustPass_NotLoged(BaseException):
     def __init__(self, *args: object) -> None:
@@ -59,6 +60,10 @@ class HustPass:
         '''
         self.CheckLoged()
         return QuerySchedules(self.Session, QueryData, semester)
+    
+    def QueryPhyExpSchedules(self) -> list:
+        self.CheckLoged()
+        return GetPhysicsLab(self.Session)
     
     def QueryFreeRooms(self, QueryData:str) -> dict:
         '''
