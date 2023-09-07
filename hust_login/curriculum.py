@@ -78,7 +78,7 @@ def QuerySchedules(session:requests.Session, _date_query:str|list[str]|int|tuple
     '''
     session.get('http://hub.m.hust.edu.cn/kcb/todate/datecourseNew.action')
     
-    print(semester)
+    #print(semester)
     if semester is not None:
         if isinstance(semester, str) and len(semester) == 5:
             session.post('http://hub.m.hust.edu.cn/kcb/todate/XqJsonCourse.action',data={'xqh':int(semester)})
