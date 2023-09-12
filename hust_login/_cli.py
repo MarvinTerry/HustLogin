@@ -1,11 +1,12 @@
 def _show_usage(code:int=-1):
     print('''\nUSAGE: python -m hust_pass <option>
-    -U              Username of pass.hust.edu.cn
-    -P              Password of pass.hust.edu.cn
-    -f              Read Uid, Pwd and Tasks from file
-    -o              Output Result to a file (Unconditional OVERWRITE)
-    -v, --version   Version of hust-login
-    -h, --help      Get help
+    -U                  Username of pass.hust.edu.cn
+    -P                  Password of pass.hust.edu.cn
+    -i, --interactive   Start an interactive session with basic functions
+    -f                  Read Uid, Pwd and Tasks from file
+    -o                  Output Result to a file (Unconditional OVERWRITE)
+    -v, --version       Version of hust-login
+    -h, --help          Get help
     ''')
     if code == -2:
         print('''
