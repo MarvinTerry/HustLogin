@@ -8,11 +8,10 @@ import logging
 
 def main():
     try:
-        opts, args = getopt(sys.argv[1:],'U:P:f:o:hvi',['autotest','help','version','inputformat','debug','interactive'])
+        opts, args = getopt(sys.argv[1:],'U:P:f:o:hvi',['help','version','inputformat','debug','interactive'])
     except:
         return _show_usage()
 
-    autotest = False
     log_level = logging.INFO
     fpath = None
     opath = None
@@ -22,8 +21,6 @@ def main():
         elif opt in ['-v', '--version']:
             from . import __version__
             return __version__
-        elif opt == '--autotest':
-            autotest = True
         elif opt == '--inputformat':
             with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'example.json'),'r') as fp:
                 print(fp.read())
@@ -72,14 +69,6 @@ def main():
     except ConnectionRefusedError:
         print('HUSTPASS: Authentication failed')
         return -1
-    
-    if autotest:
-        from .autotest import full_test
-        code = full_test(HUSTpass)
-        if code != 0:
-            print('Test Failed')
-            return code
-        return 0
     
     if opath is not None:
         try:

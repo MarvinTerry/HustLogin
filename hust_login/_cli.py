@@ -2,7 +2,6 @@ def _show_usage(code:int=-1):
     print('''\nUSAGE: python -m hust_pass <option>
     -U              Username of pass.hust.edu.cn
     -P              Password of pass.hust.edu.cn
-        --autotest  Automatically test api availability, need Uid and Pwd
     -f              Read Uid, Pwd and Tasks from file
     -o              Output Result to a file (Unconditional OVERWRITE)
     -v, --version   Version of hust-login
