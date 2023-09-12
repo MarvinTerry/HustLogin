@@ -150,23 +150,26 @@ def cli():
         answer = prompt(interface[1])
         if answer['actions'] == 'Exit':
             break
-        if answer['actions'] == 'Bills':
-            answer = prompt(interface[2])
-            if answer['bills'] == 'Go Back':
-                continue
-            date = __get_date()
-            if answer['bills'] == 'E-card':
-                result = HUSTpass.QueryEcardBills(date)
-            elif answer['bills'] == 'Dormitory':
-                result = HUSTpass.QueryElectricityBills(date)
-        elif answer['actions'] == 'Curriculum':
-            date = __get_date()
-            result = HUSTpass.QuerySchedules(date)
-        elif answer['actions'] == 'Rooms':
-            date = __get_date()
-            result = HUSTpass.QueryFreeRooms(date)
+        try:
+            if answer['actions'] == 'Bills':
+                answer = prompt(interface[2])
+                if answer['bills'] == 'Go Back':
+                    continue
+                date = __get_date()
+                if answer['bills'] == 'E-card':
+                    result = HUSTpass.QueryEcardBills(date)
+                elif answer['bills'] == 'Dormitory':
+                    result = HUSTpass.QueryElectricityBills(date)
+            elif answer['actions'] == 'Curriculum':
+                date = __get_date()
+                result = HUSTpass.QuerySchedules(date)
+            elif answer['actions'] == 'Rooms':
+                date = __get_date()
+                result = HUSTpass.QueryFreeRooms(date)
 
-        print(result)
+            print(result)
+        except:
+            print('!!!Error Happened')
         
     print('Cleaning...') # Useless, just for Experience
     return 0
