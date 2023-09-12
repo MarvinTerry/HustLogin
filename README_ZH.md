@@ -3,6 +3,10 @@
 
 ![HustPassLogo](https://pass.hust.edu.cn/cas/comm/image/logo-inside.png)
 
+b站教程 [Bilibili](https://www.bilibili.com/video/BV1bX4y1j7vR/)
+
+Python-requests依赖注入模式 [HustAuth](https://github.com/MarvinTerry/HustAuth)
+
 > 更快、更简单、更方便
 
 注意：HustPass登录协议于2023年5月23日进行了重大更新，从DES迁移到RSA，以前的登录库现已不可使用。
@@ -20,7 +24,7 @@ pip install hust_login
 此外，您需要安装```tesseract-ocr```后端：
 
 - Win：[在此处下载二进制文件](https://tesseract-ocr.github.io/tessdoc/Downloads.html)，推荐“3rd party Windows exe’s/installer”。
-- Linux：运行```sudo apt/dnf/yum install tesseract-ocr```
+- Linux：运行```sudo apt install tesseract-ocr```.推荐使用appimage版本
 
 ## 文档
 ### **```hust_login.HustLogin(用户名，密码，标头（可选)```**
