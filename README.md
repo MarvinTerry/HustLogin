@@ -24,7 +24,7 @@ pip install hust_login
 Additionally, you need to install ```tesseract-ocr``` back end:
 
 - Win: [download binary here](https://tesseract-ocr.github.io/tessdoc/Downloads.html), "3rd party Windows exe’s/installer" recommanded.
-- Linux: run ```sudo apt install tesseract-ocr```
+- Linux: run ```sudo apt install tesseract-ocr```. It's recommended to use the appimage version
 
 ## Documentation
 ### **```hust_login.HustLogin(username, password, headers=None)```**
