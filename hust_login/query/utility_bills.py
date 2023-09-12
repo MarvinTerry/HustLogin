@@ -12,7 +12,7 @@ def GetElectricityBill(session:requests.Session, Uid:str, _QueryDate:str|list[st
                 -- tuple: two str, including the start and the end\n
     \n
     RETURN:\n
-    {'RoomName': 'XXX', 'RemainPower': 'XXX', 'DayCost': [{'daycost': 'XXX', 'date': 'YYYY-MM-DD', 'money': 'XXX'}]}
+    {'RoomName': 'XXX', 'RemainPower': 'XXX', 'DayCost': [{'Date': 'YYYY-MM-DD', 'DayCost': 'XXX', 'Money': 'XXX'}]}
     '''
     session.get('http://pass.hust.edu.cn/cas/login?service=http://sdhq.hust.edu.cn/icbs/hust/cas/neusoftcas.aspx')
     Query_list = []
@@ -51,7 +51,7 @@ def GetElectricityBill(session:requests.Session, Uid:str, _QueryDate:str|list[st
     elif isinstance(Query_list, tuple):
         ret = __GetOneDay(session, MeterID, Query_list[0], Query_list[1])
 
-    return {'room':info[1], 'remain_power':info[2], 'daily_cost':ret}
+    return {'Room':info[1], 'Remain_power':info[2], 'Daily_cost':ret}
 
 
 def __GetInfo(session:requests.Session, Uid:str):
@@ -83,7 +83,6 @@ def __GetOneDay(session:requests.Session, MeterID:str, S_Date:str, E_Date:str) -
     payload3 = session.get(
         'http://sdhq.hust.edu.cn/icbs/PurchaseWebService.asmx/getMeterDayValue?AmMeter_ID={}&startDate={}&endDate={}'.format(MeterID, S_Date, E_Date)).text
     if re.search('<msg>成功</msg>', payload3) is None:
-        print(payload3)
         raise Exception('Failed to get Data')
     ret_daycost = []
     for _item in re.finditer('<DayValueInfo>(.*?)</DayValueInfo>', payload3, re.S): # 解决匹配错误 *?表示最小匹配(non-greedy quantifier)
@@ -92,5 +91,5 @@ def __GetOneDay(session:requests.Session, MeterID:str, S_Date:str, E_Date:str) -
         cost_unit = re.search('<dw>(.*)</dw>', item).group(1)
         money = re.search('<dayUseMeony>(.*)</dayUseMeony>',item).group(1)
         date = re.search('<curDayTime>(.*)</curDayTime>', item).group(1)
-        ret_daycost.append({'date':date,'cost':elc_cost+cost_unit,'money':money}) 
+        ret_daycost.append({'Date':date,'DayCost':elc_cost+cost_unit,'Money':money}) 
     return ret_daycost

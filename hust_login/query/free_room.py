@@ -37,7 +37,7 @@ def _GetOneDay(session:requests.Session, date_query:str) -> list:
 
     raw_data = []
     # 建立数据结构
-    ret = {'date':date_query,'buildings':{buiding_name: [{'No': str(i), 'roomlist': []} for i in range(1,13)] for buiding_name in __buildings.keys()}}
+    ret = {'Date':date_query,'Buildings':{buiding_name: [{'No': str(i), 'Roomlist': []} for i in range(1,13)] for buiding_name in __buildings.keys()}}
 
     for buiding_id in __buildings.values():
         # 爬取每个教学楼数据
@@ -45,6 +45,6 @@ def _GetOneDay(session:requests.Session, date_query:str) -> list:
         raw_data.extend(json.loads(resp.text)['dataList'])
     
     for item in raw_data:
-        ret['buildings'][item['JXLMC']][item['JC']-1]['roomlist'].append(item['JSMC'].strip('教室'))
+        ret['Buildings'][item['JXLMC']][item['JC']-1]['Roomlist'].append(item['JSMC'].strip('教室'))
 
     return ret

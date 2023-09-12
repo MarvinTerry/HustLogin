@@ -15,7 +15,7 @@ def GetPhysicsLab(session:requests.Session, add_file_link:bool = True):
         if load == 1 or load == 0:
             raise Exception('No Data')
 
-        ret = []
+        ret = {}
         for item in resp['data']:
             if len(item) == 1:
                 continue # ignore
@@ -39,7 +39,7 @@ def GetPhysicsLab(session:requests.Session, add_file_link:bool = True):
             if add_file_link:
                 res['FileLinks'] = 'http://empxk.hust.edu.cn/weixin/course_resources.html?'+str(item['course_id'])
                 # http://empxk.hust.edu.cn/weixin/introduction.html? + item['course_id'] is the intro
-            ret.append(res)
+            ret[item['start_time'][:10]]=res
 
         return ret
     else:

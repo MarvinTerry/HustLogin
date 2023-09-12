@@ -5,7 +5,7 @@ import re
 from datetime import datetime, timedelta
 from hust_login.query.utils import DateFormat
 
-def QuerySchedules(session:requests.Session, _date_query:str|list[str]|int|tuple[str,str], semester:str=None) -> list:
+def QuerySchedules(session:requests.Session, _date_query:str|list[str]|int|tuple[str,str], semester:str=None, with_labexp:bool=True) -> list:
     '''
     PARAMETERS:\n
     session -- should be already logged in\n
@@ -16,7 +16,7 @@ def QuerySchedules(session:requests.Session, _date_query:str|list[str]|int|tuple
     semester-- str  : the semester you want e.g. 20221:the first semester of 2022~2023 school year\n
     \n
     RETURN:\n
-    [{'Date':'YYYY-MM-DD','Curriculum':[{'No':'1', 'ClassName': 'XXX', 'TeacherName': 'XXX'}]}]
+    [{'Date':'YYYY-MM-DD','Curriculum':[{'No':'1', 'Course': 'XXX', 'TeacherName': 'XXX'}]}]
     '''
     session.get('http://hub.m.hust.edu.cn/kcb/todate/datecourseNew.action')
     
@@ -62,21 +62,33 @@ def QuerySchedules(session:requests.Session, _date_query:str|list[str]|int|tuple
         raise TypeError('HUSTPASS: UNSUPPORT TYPE')
 
     ret = []
-    for pack in query_list:
-        date, week = pack
-        ret.append(__GetOneDay(session, date, week))
+    if not with_labexp:
+        for pack in query_list:
+            date, week = pack
+            ret.append(__GetOneDay(session, date, week))
+    else:
+        from .curriculum_physic import GetPhysicsLab
+        lab_data = GetPhysicsLab(session, False)
+        for date, week in query_list:
+            data = __GetOneDay(session, date, week)
+            for c_info in data['Curriculum']:
+                if c_info['Place'] == '科技楼北楼物理实验教学中心':
+                    new_data = lab_data[date]
+                    data['Curriculum']['Course'] = new_data['Name']
+                    data['Curriculum']['Teacher'] = new_data['Teacher']
+                    data['Curriculum']['Place'] = new_data['Place']
     return ret
     
 def __GetOneDay(session:requests.Session, date_query:str, week:int) -> tuple[list[dict], dict]:
     resp_api = session.get('http://hub.m.hust.edu.cn/kcb/todate/JsonCourse.action?sj={}&zc={}'.format(date_query, week))
     content=json.loads(resp_api.text)
     class_list = []
-    ret = {'date':date_query} 
+    ret = {'Date':date_query} 
     for item in content:
         if item['kc'][0]['JSMC']=='—':
             continue
-        class_list.append({'No':item['jcx'],'course':item['kc'][0]['KCMC'],'teacher':item['kc'][0]['XM'],'place':item['kc'][0]['JSMC']})
-    ret['curriculum'] = class_list
+        class_list.append({'No':item['jcx'],'Course':item['kc'][0]['KCMC'],'Teacher':item['kc'][0]['XM'],'Place':item['kc'][0]['JSMC']})
+    ret['Curriculum'] = class_list
     return ret
 
 def __weeks_from(start_date, date):
