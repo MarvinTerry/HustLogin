@@ -1,6 +1,8 @@
 # HustPass
 用于验证 HustPass@2023 的 python-lib
 
+此仓库现独立维护
+
 ![HustPassLogo](https://pass.hust.edu.cn/cas/comm/image/logo-inside.png)
 
 b站教程 [Bilibili](https://www.bilibili.com/video/BV1bX4y1j7vR/)
