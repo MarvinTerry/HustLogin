@@ -1,21 +1,15 @@
 # 查询物理实验课表
 import requests
 import json
-from .login import CheckLoginStatu
 
-def GetPhysicsLab(session:requests.Session):
+def GetPhysicsLab(session:requests.Session, add_file_link:bool = True):
 
     if not isinstance(session, requests.Session):
-        raise TypeError('HUSTPASS: CHECK YOUR session, day AND week INPUT TYPE')
-
-    if not CheckLoginStatu(session):
-        raise ConnectionRefusedError('HUSTPASS: YOU HAVENT LOGGED IN')
+        raise TypeError('HUSTPASS: CHECK YOUR session INPUT TYPE')
 
     resp_json = session.get('http://empxk.hust.edu.cn/weixin/WeChatChooseCourse/getMyCourseSchedule')
     resp = json.loads(resp_json.text)
     if resp['state'] == '0000':
-
-        add_file_link = True # 
 
         load = len(resp['data'])
         if load == 1 or load == 0:

@@ -1,7 +1,6 @@
 # 查询课表
 import requests
 import json
-from .login import CheckLoginStatu
 import re
 from datetime import datetime, timedelta
 
@@ -39,8 +38,6 @@ def GetOneDay(session:requests.Session, _date_query:str) -> tuple[list[dict], di
     if not (isinstance(session, requests.Session) and isinstance(_date_query, str)):
         raise TypeError('HUSTPASS: CHECK YOUR session, day AND week INPUT TYPE')
     
-    if not CheckLoginStatu(session):
-        raise ConnectionRefusedError('HUSTPASS: YOU HAVENT LOGGED IN')
     
     date_query = datetime.strptime(_date_query, '%Y-%m-%d').date().isoformat() # 保证日期格式标准，即补充用户可能忘记添加的0
 

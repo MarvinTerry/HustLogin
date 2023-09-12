@@ -1,6 +1,5 @@
 import requests
 import re
-from .login import CheckLoginStatu
 from datetime import datetime
 
 def DateLoad(_QueryDate:str) -> str:
@@ -54,9 +53,6 @@ def GetElectricityBill(session:requests.Session, Uid:str, _QueryDate:str|list[st
 
     else:
         raise TypeError('HUSTPASS: UNSUPPORT TYPE')
-
-    if not CheckLoginStatu(session):
-        raise ConnectionRefusedError('HUSTPASS: YOU HAVENT LOGGED IN')
 
     payload0 = session.get(
         'http://sdhq.hust.edu.cn/icbs/PurchaseWebService.asmx/getRoomInfobyStudentID?Student_ID={}'.format(Uid)).text

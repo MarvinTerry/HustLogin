@@ -1,7 +1,6 @@
 import requests
 import re
 import json
-from .login import CheckLoginStatu
 from datetime import datetime, timedelta
 
 def is_inbetween_2_dates(_date:str, _date_duration:tuple) -> bool:
@@ -110,8 +109,6 @@ def GetEcardBills(session:requests.Session, _QueryDate:str|list[str]|tuple[str,s
     RETURN:\n
     {'RoomName': 'XXX', 'RemainPower': 'XXX', 'DayCost': [{'daycost': 'XXX', 'date': 'YYYY-MM-DD', 'money': 'XXX'}]}
     '''
-    if not CheckLoginStatu(session):
-        raise ConnectionRefusedError('HUSTPASS: YOU HAVEN`T LOGGED IN')
     
     # 抓取校园卡账户
     resp = session.get('http://ecard.m.hust.edu.cn/wechat-web/QueryController/Queryurl.html')
