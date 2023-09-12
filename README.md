@@ -26,7 +26,7 @@ pip install hust_login
 此外，您需要安装```tesseract-ocr```后端：
 
 - Win：[在此处下载二进制文件](https://tesseract-ocr.github.io/tessdoc/Downloads.html)，推荐“3rd party Windows exe’s/installer”。
-- Linux：运行```sudo apt install tesseract-ocr```.推荐使用appimage版本
+- Linux：运行```sudo apt install tesseract-ocr```。推荐使用appimage版本
 
 ## 文档
 ### **```hust_login.HustLogin(用户名，密码，标头（可选)```**
@@ -44,7 +44,7 @@ pip install hust_login
        ret = s.get(your_url)
        print(ret.text)
        ```
-### **```hust_login.HustPass(用户名，密码，标头（可选))```
+### **```hust_login.HustPass(用户名，密码，标头（可选))```**
 
    参数：与HustLogin相同
 
@@ -92,20 +92,20 @@ pip install hust_login
    总学分  52.5
    ```
 
-## 发展
+## 开发
 
-如果该库已过时，请尝试发出pr以使该库再次工作！
+如果该库不再有效，请尝试发出pr以使该库再次工作！
 
-在常规登录期间启用加密和发布登录表单的 js 脚本是公开可用的 [login_standar.js?v=20230523](https://pass.hust.edu.cn/cas/comm/js/login_standar.js?v=20230523)。 我们的工作是将js翻译成python并处理验证码。
+在常规登录期间启用加密和发布登录表单的 js 脚本是公开可用的 [login_standar.js?v=20230523](https://pass.hust.edu.cn/cas/comm/js/login_standar.js?v=20230523)。 我们的工作是将js翻译成python并处理验证码。（并提供一系列常用查询函数）
 
 如果您正在开发类似的库或该库的较新版本，以下是值得一提的内容：
 
-- 加密：
+- RSA加密：
    - PublicKey采用base64编码，请先解码。
-   - 您加密的usr/pass应该以base64编码，并转换为文本而不是字节。 请更深入地研究我的代码，看看它是如何工作的。
+   - 您加密的usr/pass应该以base64编码，并转换为文本而不是字节。您可以查看我的代码，看看它是如何工作的。
 - 解码器
    - 使用```BytesIO``` 方法将包含 gif 的字节流转换为文件。
-   - 采用 Genius 方法对 4 帧 gif 进行组合和去噪：据观察，**数量**像素至少会出现在 3 帧中，而**噪声**像素小于 2。这提供了一种超级准确的方法来对图片进行去噪。 这是代码片段：
+   - 采用 Genius 方法对 4 帧 gif 进行组合和去噪：据观察，**数量**像素至少会出现在 3 帧中，而**噪声**像素小于 2。这提供了一种准确的方法来对图片进行去噪。 这是代码片段：
      ```python
      img_merge = Image.new(mode='L',size=(width,height),color=255)
      for pos in [(x,y) for x in range(width) for y in range(height)]:
