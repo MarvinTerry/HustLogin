@@ -3,6 +3,22 @@ import requests
 import json
 
 def GetPhysicsLab(session:requests.Session, add_file_link:bool = True):
+    '''
+    PARAMETERS:\n
+    session -- should be already logged in\n
+    \n
+    RETURN:\n
+    {'1970-01-01':{
+            'Name':'XXX',
+            'TableNum':'0',
+            'Teacher':'XXX',
+            'Place':'XXX',
+            'Time':{'Time of the Day':'1970-01-01 00:00:00',
+                    'Day of the Week':'0',
+                    'Week':'0',
+                    'Sections':'上午/下午/晚上'},
+            'Statu':'XXX'}}
+    '''
 
     if not isinstance(session, requests.Session):
         raise TypeError('HUSTPASS: CHECK YOUR session INPUT TYPE')

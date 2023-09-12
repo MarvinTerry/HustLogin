@@ -15,9 +15,8 @@ def GetEcardBills(session:requests.Session, _QueryDate:str|list[str]|tuple[str,s
                 -- tuple: two str, including the start and the end\n
     \n
     RETURN:\n
-    {'RoomName': 'XXX', 'RemainPower': 'XXX', 'DayCost': [{'daycost': 'XXX', 'date': 'YYYY-MM-DD', 'money': 'XXX'}]}
+    #TODO
     '''
-    
     # 抓取校园卡账户
     resp = session.get('http://ecard.m.hust.edu.cn/wechat-web/QueryController/Queryurl.html')
     account = re.search('<input id="account" type="hidden" value="(.*)"/>',resp.text).group(1)

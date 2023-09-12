@@ -16,7 +16,7 @@ def QuerySchedules(session:requests.Session, _date_query:str|list[str]|int|tuple
     semester-- str  : the semester you want e.g. 20221:the first semester of 2022~2023 school year\n
     \n
     RETURN:\n
-    [{'Date':'YYYY-MM-DD','Curriculum':[{'No':'1', 'Course': 'XXX', 'TeacherName': 'XXX'}]}]
+    [{'Date':'YYYY-MM-DD','Curriculum':[{'No':'1', 'Course': 'XXX', 'TeacherName': 'XXX', 'Place':'XXX'}]}]
     '''
     session.get('http://hub.m.hust.edu.cn/kcb/todate/datecourseNew.action')
     
