@@ -1,19 +1,6 @@
 import requests
 import re
-from datetime import datetime
-
-def DateLoad(_QueryDate:str) -> str:
-    if re.search('(\d*/\d*/\d*)', _QueryDate) is None :
-        if re.search('(\d*-\d*-\d*)', _QueryDate) is None:
-            raise
-        _date = datetime.strptime(_QueryDate, '%Y-%m-%d')
-    else:
-        _date = datetime.strptime(_QueryDate, '%Y/%m/%d')
-    return _date
-
-def DateFormat(_date:datetime):
-    date = _date.date().timetuple()
-    return str(date.tm_year)+'/'+str(date.tm_mon)+'/'+str(date.tm_mday)
+from .utils import DateLoad, DateFormat_NISO
 
 def GetElectricityBill(session:requests.Session, Uid:str, _QueryDate:str|list[str]|tuple[str,str]) -> dict:
     '''
@@ -31,7 +18,7 @@ def GetElectricityBill(session:requests.Session, Uid:str, _QueryDate:str|list[st
     Query_list = []
     if isinstance(_QueryDate, list):
         for _item in _QueryDate:
-            Query_list.append(DateFormat(DateLoad(_item)))
+            Query_list.append(DateFormat_NISO(DateLoad(_item)))
 
     elif isinstance(_QueryDate, tuple):
         if len(_QueryDate) !=2:
@@ -40,20 +27,34 @@ def GetElectricityBill(session:requests.Session, Uid:str, _QueryDate:str|list[st
         S_date = DateLoad(_start_date)
         E_date = DateLoad(_end_date)
         if S_date == E_date:
-            Query_list.append(DateFormat(S_date))
+            Query_list.append(DateFormat_NISO(S_date))
         elif S_date > E_date:
             S_date = DateLoad(_end_date)
             E_date = DateLoad(_start_date)
 
         if len(Query_list)!=1:
-            Query_list = (DateFormat(S_date),DateFormat(E_date))
+            Query_list = (DateFormat_NISO(S_date),DateFormat_NISO(E_date))
 
     elif isinstance(_QueryDate, str):
-        Query_list.append(DateFormat(DateLoad(_QueryDate)))
+        Query_list.append(DateFormat_NISO(DateLoad(_QueryDate)))
 
     else:
         raise TypeError('HUSTPASS: UNSUPPORT TYPE')
+    
+    info = __GetInfo(session, Uid)
+    MeterID = info[0]
+    
+    ret = []
+    if isinstance(Query_list, list):
+        for item in Query_list:
+            ret.append(__GetOneDay(session, MeterID, item, item)[0])
+    elif isinstance(Query_list, tuple):
+        ret = __GetOneDay(session, MeterID, Query_list[0], Query_list[1])
 
+    return {'room':info[1], 'remain_power':info[2], 'daily_cost':ret}
+
+
+def __GetInfo(session:requests.Session, Uid:str):
     payload0 = session.get(
         'http://sdhq.hust.edu.cn/icbs/PurchaseWebService.asmx/getRoomInfobyStudentID?Student_ID={}'.format(Uid)).text
     if re.search('<msg>成功</msg>', payload0) is None:
@@ -75,21 +76,15 @@ def GetElectricityBill(session:requests.Session, Uid:str, _QueryDate:str|list[st
     _unit = re.search('<remainName>(.*)</remainName>', payload2).group(1)
     price_per_unit = re.search('<basePrice>(.*)</basePrice>',payload2).group(1)
     ret_remainPower = _remainPower+_unit
-    
-    ret = []
-    if isinstance(Query_list, list):
-        for item in Query_list:
-            ret.append(_GetOneDay(session, MeterID, item, item)[0])
-    elif isinstance(Query_list, tuple):
-        ret = _GetOneDay(session, MeterID, Query_list[0], Query_list[1])
 
-    return {'room':ret_Name, 'remain_power':ret_remainPower, 'daily_cost':ret}
+    return MeterID, ret_Name, ret_remainPower, price_per_unit
 
-def _GetOneDay(session:requests.Session, MeterID:str, S_Date:str, E_Date:str) -> list[dict]:
+def __GetOneDay(session:requests.Session, MeterID:str, S_Date:str, E_Date:str) -> list[dict]:
     payload3 = session.get(
         'http://sdhq.hust.edu.cn/icbs/PurchaseWebService.asmx/getMeterDayValue?AmMeter_ID={}&startDate={}&endDate={}'.format(MeterID, S_Date, E_Date)).text
     if re.search('<msg>成功</msg>', payload3) is None:
-        raise
+        print(payload3)
+        raise Exception('Failed to get Data')
     ret_daycost = []
     for _item in re.finditer('<DayValueInfo>(.*?)</DayValueInfo>', payload3, re.S): # 解决匹配错误 *?表示最小匹配(non-greedy quantifier)
         item = _item.group(1)
@@ -97,5 +92,5 @@ def _GetOneDay(session:requests.Session, MeterID:str, S_Date:str, E_Date:str) ->
         cost_unit = re.search('<dw>(.*)</dw>', item).group(1)
         money = re.search('<dayUseMeony>(.*)</dayUseMeony>',item).group(1)
         date = re.search('<curDayTime>(.*)</curDayTime>', item).group(1)
-        ret_daycost.append({'date':date,'cost':elc_cost+cost_unit,'money':money}) # 调换日期、电费顺序，更加合理
+        ret_daycost.append({'date':date,'cost':elc_cost+cost_unit,'money':money}) 
     return ret_daycost
