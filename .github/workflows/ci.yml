@@ -55,7 +55,7 @@ jobs:
 
       - name: Install MacPorts(Mac)
         if: matrix.os == 'macos-latest'
-        uses: melusina-org/gha-install-macports@v1.0.0
+        uses: melusina-org/setup-macports@v1
 
       - name: Install tesseract(Mac)
         if: matrix.os == 'macos-latest'
