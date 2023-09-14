@@ -24,5 +24,6 @@ with HustPass(Uname, Upass) as s:
     #     f.write(json.dumps(s.QueryFreeRooms('2023-08-29'), ensure_ascii=False))
     # with open('electricity_bill.json','w', encoding='utf-8') as f:
     #     f.write(json.dumps(s.QueryElectricityBills(('2023-04-03','2023-04-10')), ensure_ascii=False))
-    pprint(s.QueryPhyExpSchedules())
+    pprint(s.QuerySchedules('2023-09-18'))
+    
     

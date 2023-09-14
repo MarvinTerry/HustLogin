@@ -4,6 +4,8 @@ import json
 from .login import CheckLoginStatu
 import re
 from datetime import datetime, timedelta
+from .curriculum_physic import GetPhysicsLab
+import copy
 
 def weeks_from(start_date, date):
     if not isinstance(start_date, datetime):
@@ -55,12 +57,32 @@ def _GetOneDay(session:requests.Session, date_query:str, week:int) -> tuple[list
     resp_api = session.get('http://hub.m.hust.edu.cn/kcb/todate/JsonCourse.action?sj={}&zc={}'.format(date_query, week))
     content=json.loads(resp_api.text)
     class_list = []
+    flag_phy = False
     ret = {'date':date_query} 
     for item in content:
         if item['kc'][0]['JSMC']=='—':
             continue
+        if '物理实验' in item['kc'][0]['JSMC']: #去除物理实验课程
+            continue
         class_list.append({'No':item['jcx'],'course':item['kc'][0]['KCMC'],'teacher':item['kc'][0]['XM'],'place':item['kc'][0]['JSMC']})
     ret['curriculum'] = class_list
+
+    # replace Phy-exp
+    if flag_phy:
+        phy_time_convert = {
+            '上午':'1',
+            '下午':'5',
+            '晚上':'9'
+        }
+        phy_list = GetPhysicsLab(session)
+        for item in phy_list:
+            if item['Time']['Time of the Day'][:10] == date_query:
+                phy_item = {'No':phy_time_convert[item['Time']['Sections']],'course':'物理实验 '+item['Name'],'teacher':item['Teacher'],'place':item['Place']+' '+str(item['TableNum'])+'号台'}
+                for i in range(0,4):
+                    phy_append = copy.deepcopy(phy_item)
+                    phy_append['No'] = str(int(phy_item['No']) + i)
+                    ret['curriculum'].append(phy_append)
+        ret['curriculum'].sort(key=lambda x:int(x['No']))
     return ret
 
 def QuerySchedules(session:requests.Session, _date_query:str|list[str]|int|tuple[str,str], semester:str=None) -> list:
