@@ -3,21 +3,21 @@ import os
 import json
 from getopt import getopt
 from . import HustPass
-from ._cli import _show_usage,_tasker,cli
+from .cli import show_usage,tasker,cli
 import logging
 
 def main():
     try:
         opts, args = getopt(sys.argv[1:],'U:P:f:o:hvi',['help','version','inputformat','debug','interactive'])
     except:
-        return _show_usage()
+        return show_usage()
 
     log_level = logging.INFO
     fpath = None
     opath = None
     for opt,arg in opts:
         if opt in ['-h', '--help']:
-            return _show_usage(0)
+            return show_usage(0)
         elif opt in ['-v', '--version']:
             from . import __version__
             return __version__
@@ -38,7 +38,7 @@ def main():
         elif opt in ['-i','--interactive']:
             return cli()
         else:
-            return _show_usage()
+            return show_usage()
 
     logging.basicConfig(level=log_level,\
                         format='[%(levelname)s]  %(message)s')
@@ -49,14 +49,14 @@ def main():
             try:
                 conf = json.loads(fp.read())
             except FileNotFoundError:
-                return _show_usage(-2)
+                return show_usage(-2)
             except json.decoder.JSONDecodeError:
-                return _show_usage(-3)
+                return show_usage(-3)
             try:
                 Uid = conf['Uid']
                 Pwd = conf['Pwd']
             except KeyError:
-                return _show_usage(-3)
+                return show_usage(-3)
             try:
                 header = conf['Headers']
             except KeyError:
@@ -65,7 +65,7 @@ def main():
     try:
         HUSTpass = HustPass(Uid, Pwd, header)
     except NameError:
-        return _show_usage()
+        return show_usage()
     except ConnectionRefusedError:
         print('HUSTPASS: Authentication failed')
         return -1
@@ -73,11 +73,11 @@ def main():
     if opath is not None:
         try:
             with open(opath,'w') as fp:
-                fp.write(json.dumps(_tasker(HUSTpass, conf['Tasks'])))
+                fp.write(json.dumps(tasker(HUSTpass, conf['Tasks'])))
         except:
             return -1
     else:
-        print(_tasker(HUSTpass, conf['Tasks']))
+        print(tasker(HUSTpass, conf['Tasks']))
         return 0
 
 if __name__ == '__main__':
