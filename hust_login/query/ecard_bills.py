@@ -8,14 +8,10 @@ def GetEcardBills(session:requests.Session, _QueryDate:str|list[str]|tuple[str,s
     '''
     PARAMETERS:\n
     session     -- should be already logged in\n
-    Uid         -- str  : your student uid\n
-    QueryDates  -- str  : in form of '2023-7-21' or '2023/7/21'\n
-                -- str  : in form of '2023-7' or '2023/7'
-                -- list : a list, each item in the same form\n
-                -- tuple: two str, including the start and the end\n
-    \n
+    _QueryDate  -- str  : in form of '2023-7-21' or '2023-7'\n
+                API会自动忽略日期,只返回当月消费\n
     RETURN:\n
-    #TODO
+    {'Name':'XXX','Money':0.0,'Balance':0.0,'Time':'1970-01-01T00:00:00','Account':'XXX'}
     '''
     # 抓取校园卡账户
     resp = session.get('http://ecard.m.hust.edu.cn/wechat-web/QueryController/Queryurl.html')
@@ -69,9 +65,10 @@ def __GetMonth(session:requests.Session, account:str, _QueryMonth:str) -> list:
     PARAMETERS:\n
     session     -- should be already logged in\n
     account     -- str  : in form of 'XXXXXX'
-    QueryMonth  -- str  : in form of '2023-7-21' or '2023-7'\n
+    _QueryMonth  -- str  : in form of '2023-7-21' or '2023-7'\n
                 API会自动忽略日期,只返回当月消费\n
     RETURN:\n
+    {'Name':'XXX','Money':0.0,'Balance':0.0,'Time':'1970-01-01T00:00:00','Account':'XXX'}
     '''
     url_base = 'http://ecard.m.hust.edu.cn/wechat-web/QueryController/select.html'
     
@@ -87,18 +84,18 @@ def __GetMonth(session:requests.Session, account:str, _QueryMonth:str) -> list:
         entrys = raw['consume']
         ret.extend(entrys)
     selected_col = {
-        'name'    :'mercname',
-        'money'   :'tranamt',
-        'balance' :'cardbal',
-        'time'    :'occtime',
-        'account' :'tranname'
+        'Name'    :'mercname',
+        'Money'   :'tranamt',
+        'Balance' :'cardbal',
+        'Time'    :'occtime',
+        'Account' :'tranname'
     }
     ret = [{column_new:entry[column_old] for column_new,column_old in selected_col.items()} for entry in ret]
     for entry in ret:
-        for col in ['money','balance']:
+        for col in ['Money','Balance']:
             entry[col] = float(entry[col])/100
-        entry['time'] = __raw_to_iso(entry['time'])
-        entry['account'].strip('消费')
+        entry['Time'] = __raw_to_iso(entry['Time'])
+        entry['Account'].strip('消费')
     return ret
 
 def __is_inbetween(_date:str, _date_duration:tuple) -> bool:
