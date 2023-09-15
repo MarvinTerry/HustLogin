@@ -1,12 +1,13 @@
 
-def cli():
-            
+def cli(auth=None):
+
     answer = prompt(interface[0])
     if answer['init'] == 'Exit':
         return 0
     
     while 1:
-        auth = prompt(login_para[:2])
+        if auth == None:
+            auth = prompt(login_para[:2])
         try:
             from .. import HustPass
             HUSTpass = HustPass(auth['UID'], auth['PWD'])

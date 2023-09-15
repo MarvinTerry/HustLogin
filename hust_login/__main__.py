@@ -15,6 +15,7 @@ def main():
     log_level = logging.INFO
     fpath = None
     opath = None
+    Is_interactive = False
     for opt,arg in opts:
         if opt in ['-h', '--help']:
             return show_usage(0)
@@ -42,6 +43,11 @@ def main():
 
     logging.basicConfig(level=log_level,\
                         format='[%(levelname)s]  %(message)s')
+    
+    if Is_interactive:
+        if not Uid and not Pwd:
+            return cli((Uid, Pwd))
+        return cli()
     
     header = None
     if fpath is not None:
