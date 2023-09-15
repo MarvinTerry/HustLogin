@@ -3,11 +3,13 @@
 
 此仓库现独立维护
 
+[README(EN ver)](READ_EN.md)
+
 ![HustPassLogo](https://pass.hust.edu.cn/cas/comm/image/logo-inside.png)
 
-b站教程 [Bilibili](https://www.bilibili.com/video/BV1bX4y1j7vR/)
+b站教程(来自上游) [Bilibili](https://www.bilibili.com/video/BV1bX4y1j7vR/)
 
-Python-requests依赖注入模式 [HustAuth](https://github.com/MarvinTerry/HustAuth)
+Python-requests依赖注入模式(来自上游) [HustAuth](https://github.com/MarvinTerry/HustAuth)
 
 > 更快、更简单、更方便
 
