@@ -40,7 +40,6 @@ def main():
             return cli()
         else:
             return show_usage()
-
     logging.basicConfig(level=log_level,\
                         format='[%(levelname)s]  %(message)s')
     
@@ -48,7 +47,6 @@ def main():
         if not Uid and not Pwd:
             return cli((Uid, Pwd))
         return cli()
-    
     header = None
     if fpath is not None:
         with open(fpath,'r') as fp:
@@ -76,6 +74,7 @@ def main():
         print('HUSTPASS: Authentication failed')
         return -1
     
+
     if opath is not None:
         try:
             with open(opath,'w') as fp:

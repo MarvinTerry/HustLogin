@@ -21,9 +21,11 @@ Python-requests依赖注入模式(来自上游) [HustAuth](https://github.com/Ma
 
 通过单行命令安装，pip将自动处理依赖。
 
+
 ```
 pip install hust_login
 ```
+
 
 此外，您需要安装```tesseract-ocr```后端：
 
@@ -55,6 +57,7 @@ pip install hust_login
 
 ## Demo
 演示如何查询考试成绩
+
 - CODE:
   ```python
   from hust_login import HustPass
@@ -67,6 +70,7 @@ pip install hust_login
           for col in row.contents:
               print(col.text.strip(), end=" ")
           print("")
+
    ```
    **建议**在 ```with``` 语句中调用 ```HustPass```，如图所示。
 - RESULT:
@@ -78,6 +82,7 @@ pip install hust_login
    captcha_code:0344
    posting login-form...
    ---HustPass Succeed---
+
    课程名称  课程学分  课程成绩  备注  
    微积分（一）（上）  5.5  90
    综合英语（一）  3.5  94
@@ -117,3 +122,4 @@ pip install hust_login
      ![org](images/captcha_code.gif) ![processed](images/captcha_code_processed.png)
 - 网络：
    - 一个常见的假UA是必不可少的！ HustPass 已阻止 python-requests 的默认UA。
+
