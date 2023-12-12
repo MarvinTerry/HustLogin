@@ -21,6 +21,7 @@ def cli(auth=None):
             return -1
         except ValueError as e:
             print(e)
+        auth = None
         
     while 1:
         answer = prompt(interface[1])

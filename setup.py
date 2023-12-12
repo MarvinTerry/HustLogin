@@ -11,7 +11,7 @@ setup(
     author='MarvinTerry',
     author_email='marvinterry2004@gmail.com',
     maintainer='Jackhr',
-    maintainer_email='63526062+Jackhr-arch@users.noreply.github.com',
+    maintainer_email='jj2460596@gmail.com',
     url='https://github.com/MarvinTerry/HustLogin',
     packages=['hust_login'],
     license='MIT',
