@@ -1,9 +1,5 @@
 from .login import HustLogin, CheckLoginStatu
-from .utility_bills import GetElectricityBill
-from .curriculum import QuerySchedules
-from .free_room import GetFreeRooms
-from .ecard_bills import GetEcardBills
-from .curriculum_physic import GetPhysicsLab
+from .query import *
 
 class HustPass_NotLoged(BaseException):
     def __init__(self, *args: object) -> None:
