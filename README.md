@@ -1,63 +1,58 @@
-# HustPass
-用于验证 HustPass@2023 的 python-lib
-
-此仓库现独立维护
-
-[README(EN ver)](READ_EN.md)
+# HustLogin
+A python-lib for authenticating HustPass@2023
 
 ![HustPassLogo](https://pass.hust.edu.cn/cas/comm/image/logo-inside.png)
 
-b站教程(来自上游) [Bilibili](https://www.bilibili.com/video/BV1bX4y1j7vR/)
+> Faster, Easier, Lighter
 
-Python-requests依赖注入模式(来自上游) [HustAuth](https://github.com/MarvinTerry/HustAuth)
+Attention: HustPass login protocol underwent a major update on 2023/05/23, moving from DES to RSA, previous login libraries are now deprecated.
 
-> 更快、更简单、更方便
+Tutorials on [Bilibili](https://www.bilibili.com/video/BV1bX4y1j7vR/)
 
-注意：HustPass登录协议于2023年5月23日进行了重大更新，从DES迁移到RSA，以前的登录库现已不可使用。
+Plug-in for python-requests [HustAuth](https://github.com/MarvinTerry/HustAuth)
 
-## 安装
+## Installing
 
-该库已发布在 PyPI 上 **[hust_login](https://pypi.org/project/hust-login/)**
+The library has been made publicly available on PyPI **[hust_login](https://pypi.org/project/hust-login/)**
 
-通过单行命令安装，pip将自动处理依赖。
-
+Installing by a single line of command, and requirements will be automatically handled.
 
 ```
 pip install hust_login
 ```
 
+Additionally, you need to install ```tesseract-ocr``` back end:
 
-此外，您需要安装```tesseract-ocr```后端：
+- Win: [download binary here](https://tesseract-ocr.github.io/tessdoc/Downloads.html), "3rd party Windows exe’s/installer" recommanded.
+- Linux: run ```sudo apt install tesseract-ocr```
 
-- Win：[在此处下载二进制文件](https://tesseract-ocr.github.io/tessdoc/Downloads.html)，推荐“3rd party Windows exe’s/installer”。
-- Linux：运行```sudo apt install tesseract-ocr```。推荐使用appimage版本
+## Documentation
+### **```hust_login.HustLogin(username, password, headers=None)```**
 
-## 文档
-### **```hust_login.HustLogin(用户名，密码，标头（可选)```**
+  PARAMETERS:
+  - username -- Username of pass.hust.edu.cn  e.g. U2022XXXXX
+  - password -- Password of pass.hust.edu.cn
+  - headers  -- Headers you want to use, optional (the default header works fine)
 
-   参数：
-   - 用户名 -- pass.hust.edu.cn 的用户名 例如 U2022XXXXX
-   - 密码 -- pass.hust.edu.cn 的密码
-   - 标头 -- 您希望使用的标头，可选
+  RETURNS:
+  - A **```requests.Session```** object that is already logged in
+    - use it the same way you use requests, e.g.
+      ```python
+      s = hust_login.HustPass('U2022XXXXX','YOUR-PASSWORD')
+      ret = s.get(your_url)
+      print(ret.text)
+      ```
+### **```hust_login.HustLogin(username, password, headers=None)```**
 
-   返回：
-   - 已登录的 **```requests.Session```** 对象
-     - 使用它的方式与使用请求的方式相同，例如
-       ```python
-       s = hust_login.HustPass('U2022XXXXX','您的密码')
-       ret = s.get(your_url)
-       print(ret.text)
-       ```
-### **```hust_login.HustPass(用户名，密码，标头（可选))```**
+  PARAMETERS: Same as HustLogin
 
-   参数：与HustLogin相同
+  RETURNS:
+  - A class that contains wrapped common functions like QueryElectricityBills, QueryCurriculum, QueryFreeRoom, etc.
 
-   返回：
-   - 一个类，包含QueryElectricityBills，QueryCurriculum，QueryFreeRoom等已包装的常用函数。 
+> BE CREATIVE!!!
 
 ## Demo
-演示如何查询考试成绩
-
+Demonstrating how to query the exam result
 - CODE:
   ```python
   from hust_login import HustPass
@@ -70,19 +65,17 @@ pip install hust_login
           for col in row.contents:
               print(col.text.strip(), end=" ")
           print("")
-
-   ```
-   **建议**在 ```with``` 语句中调用 ```HustPass```，如图所示。
+  ```
+  It's **recommended** to call ```HustPass``` in the ```with``` statement, as shown.
 - RESULT:
-   ```
-   setting up session...
-   captcha detected, trying to decaptcha...
-   decaptching...
-   encrypting u/p...
-   captcha_code:0344
-   posting login-form...
-   ---HustPass Succeed---
-
+  ```
+  setting up session...
+  captcha detected, trying to decaptcha...
+  decaptching...
+  encrypting u/p...
+  captcha_code:4608
+  posting login-form...
+  ---HustPass Succeed---
    课程名称  课程学分  课程成绩  备注  
    微积分（一）（上）  5.5  90
    综合英语（一）  3.5  94
@@ -97,29 +90,32 @@ pip install hust_login
    必修课总学分  50.50
    公选课总学分  2.00
    总学分  52.5
-   ```
+  ```
 
-## 开发
+## Development
 
-如果该库不再有效，请尝试发出pr以使该库再次工作！
+If the lib outdated, try to make a pull request to get this lib working again!
 
-在常规登录期间启用加密和发布登录表单的 js 脚本是公开可用的 [login_standar.js?v=20230523](https://pass.hust.edu.cn/cas/comm/js/login_standar.js?v=20230523)。 我们的工作是将js翻译成python并处理验证码。（并提供一系列常用查询函数）
+The js-scripts that enable encrypting and posting the login-form during regular login are publicly available [login_standar.js?v=20230523](https://pass.hust.edu.cn/cas/comm/js/login_standar.js?v=20230523). My job was to translate the js into python and deal with the captcha code.
 
-如果您正在开发类似的库或该库的较新版本，以下是值得一提的内容：
+Here are something worth mentioning if you are developing a newer version of the lib:
 
-- RSA加密：
-   - PublicKey采用base64编码，请先解码。
-   - 您加密的usr/pass应该以base64编码，并转换为文本而不是字节。您可以查看我的代码，看看它是如何工作的。
-- 解码器
-   - 使用```BytesIO``` 方法将包含 gif 的字节流转换为文件。
-   - 采用 Genius 方法对 4 帧 gif 进行组合和去噪：据观察，**数量**像素至少会出现在 3 帧中，而**噪声**像素小于 2。这提供了一种准确的方法来对图片进行去噪。 这是代码片段：
-     ```python
-     img_merge = Image.new(mode='L',size=(width,height),color=255)
-     for pos in [(x,y) for x in range(width) for y in range(height)]:
-         if sum([img.getpixel(pos) < 254 for img in img_list]) >= 3:
+- Encrytion: 
+  - PublicKey is encoded in base64, decode it first.
+  - The usr/pass you encrypted should be encoded in base64, and converted into the text instead of bytes. Look deeper into my code to see how it works.
+- Decaptcha
+  - The ```BytesIO``` method is used to convert byte-stream containing the gif into the file.
+  - Genius approach applied to combine and de-noise the 4-frame gif: As observed, the **number** pixels would appear in 3 frames at least, while **noise** pixels are less than 2. This provides a super accurate way to de-noise the picture. Here's the code clip, try to understand:
+    ```python
+    img_merge = Image.new(mode='L',size=(width,height),color=255)
+    for pos in [(x,y) for x in range(width) for y in range(height)]:
+        if sum([img.getpixel(pos) < 254 for img in img_list]) >= 3:
             img_merge.putpixel(pos,0)
-     ``` 
-     ![org](images/captcha_code.gif) ![processed](images/captcha_code_processed.png)
-- 网络：
-   - 一个常见的假UA是必不可少的！ HustPass 已阻止 python-requests 的默认UA。
+    ``` 
+    ![org](images/captcha_code.gif) ![processed](images/captcha_code_processed.png)
+  
+- Network
+  - A common fake User-Agent is essential! HustPass has blocked python-requests's default User-Agent.
+
+
 
